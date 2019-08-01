@@ -19,7 +19,7 @@ class analis {
         ch;
         ind= new BufferedReader();
     }
-    // seoarar una cadena por espacio
+    // separar una cadena por espacio
    /* separar(){
         var palabra = " ";
         var espacio = " ";
@@ -28,7 +28,7 @@ class analis {
                 palabra += this.cadena.charAt(i);
                 i++;
            }
-           Aqui iria un if para comparar con lo que se vaya a com´parar
+           Aqui iria un if para comparar con lo que se vaya a comparar
            i++;
        }
 
@@ -37,4 +37,3 @@ class analis {
 }
 
 
-// seoarar una cadena por espacio
