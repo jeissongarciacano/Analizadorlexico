@@ -10,7 +10,10 @@ class tipos {
     }
 }
 class analis {
-    token = ['=', '(', ')', '+', '-', '*', '/', ';', '<', '>'];
+    comentarios = ['//', '/*', '*/'];
+    palabrasclaves = ['while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
+     'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
+    identificadores = ['=', '(', ')', '+', '-', '*', '/', ';', '<', '>'];
     constructor(){
     }
     leer() {
