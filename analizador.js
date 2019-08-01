@@ -13,7 +13,7 @@ class analis {
     comentarios = ['//', '/*', '*/'];
     palabrasclaves = ['while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
      'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
-    identificadores = ['=', '(', ')', '+', '-', '*', '/', ';', '<', '>'];
+    identificadores = ['=', '(', ')', '+', '-', '*', '/', ';', '<', '>', '&&', '||', '!'];
     constructor(){
     }
     leer() {
