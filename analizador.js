@@ -22,6 +22,33 @@ class analis {
         ch;
         ind= new BufferedReader();
     }
+  escomentario(palabra){
+        r = false;
+        for (let index = 0; index < this.comentarios.length; index++) {
+            if(palabra == this.comentarios[index]){
+                r=true;
+            }
+        }
+        return r;
+    }
+    espalabraclave(palabra){
+        r = false;
+        for (let index = 0; index < this.palabrasclaves.length; index++) {
+            if(palabra == this.palabrasclaves[index]){
+                r=true;
+            }
+        }
+        return r;
+    }
+    esidentificador(palabra){
+        r = false;
+        for (let index = 0; index < this.identificadores.length; index++) {
+            if(palabra == this.identificadores[index]){
+                r=true;
+            }
+        }
+        return r;
+    }
     // separar una cadena por espacio
    /* separar(){
         var palabra = " ";
