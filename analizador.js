@@ -68,8 +68,8 @@ imprimirdata(){
         var arrayData = new Array();
         var archivoTxt = new XMLHttpREquest();
         var fileRuta = file;
-        archivoTXtx.open("GET",fileRuta,false);
-        var txtx.send(null);
+        archivoTXt.open("GET",fileRuta,false);
+        archivoTxt.send(null);
         var txt = archivoTxt.responseText;
         var palabra =" ";
         var espacio = " ";
