@@ -49,63 +49,6 @@ imprimirdata(){
         }
         return r;
     }
-    //verifica si esta repetido para sumar 1 en el contador
-    repetido(palabra){
-        var r= false;
-        for (let index = 0; index < this.data.length; index++) {
-            if(this.data[index].cualesson==palabra){
-                r=true;
-            }
-        }
-        return r;
-    }
-    buscarindex(palabra){
-        var r= -1;
-        for (let index = 0; index < this.data.length; index++) {
-            if(this.data[index].cualesson==palabra){
-                r=index;
-            }
-        }
-        return r;
-    }
-    buscadortipo(palabra){
-        if(this.escomentario(palabra)){
-            if(this.repetido(palabra)){
-                var aux=this.buscarindex(palabra);
-                this.data[aux].cont=this.data[aux].cont+1; 
-            }
-            else{
-                var x= new tipos('comentario', palabra);
-            }
-        }
-        if(this.esidentificador(palabra)){
-            if(this.repetido(palabra)){
-                var aux=this.buscarindex(palabra);
-                this.data[aux].cont=this.data[aux].cont+1; 
-            }
-            else{
-                var x= new tipos('identificador', palabra);
-            }
-        }
-        if(this.espalabraclave(palabra)){
-            if(this.repetido(palabra)){
-                var aux=this.buscarindex(palabra);
-                this.data[aux].cont=this.data[aux].cont+1; 
-            }
-            else{
-                var x= new tipos('palabra reservada', palabra);
-            }
-        }
-        else{
-            if(this.repetido(palabra)){
-                var aux=this.buscarindex(palabra);
-                this.data[aux].cont=this.data[aux].cont+1; 
-            }
-            else{
-                var x= new tipos('otro', palabra);
-            }
-        }
-    }
 //sacado de stack... mire si puede funcionar
     readText(file){
         var rawFile = new XMLHttpRequest();
@@ -120,6 +63,23 @@ imprimirdata(){
         }
         rawFile.send(null);
     }
+    // este es el que hice para separar palabras por espacios en un array siguiendo la documentacion de javaScript por que no entendi el metodo de arriba
+   readTextS(file){
+        var arrayData = new Array():
+        var archivoTxt = new XMLHttpREquest();
+        var fileRuta = file;
+        archivoTXtx.open("GET",fileRuta,false);
+        var txtx.send(null);
+        var txt = archivoTxt.responseText;
+        var palabra =" ";
+        var espacio = " ";
+        for(var i = 0; i < txt.length;i++){
+            palabra += txt.charAt(i);
+            if (txt.charAt(i+1) == espacio){
+                arrayData.push(palabra);
+            }	
+        }
+   }
     // separar una cadena por espacio
    /* separar(){
         var palabra = " ";
