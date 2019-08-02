@@ -49,6 +49,63 @@ imprimirdata(){
         }
         return r;
     }
+    //verifica si esta repetido para sumar 1 en el contador
+    repetido(palabra){
+        var r= false;
+        for (let index = 0; index < this.data.length; index++) {
+            if(this.data[index].cualesson==palabra){
+                r=true;
+            }
+        }
+        return r;
+    }
+    buscarindex(palabra){
+        var r= -1;
+        for (let index = 0; index < this.data.length; index++) {
+            if(this.data[index].cualesson==palabra){
+                r=index;
+            }
+        }
+        return r;
+    }
+    buscadortipo(palabra){
+        if(this.escomentario(palabra)){
+            if(this.repetido(palabra)){
+                var aux=this.buscarindex(palabra);
+                this.data[aux].cont=this.data[aux].cont+1; 
+            }
+            else{
+                var x= new tipos('comentario', palabra);
+            }
+        }
+        if(this.esidentificador(palabra)){
+            if(this.repetido(palabra)){
+                var aux=this.buscarindex(palabra);
+                this.data[aux].cont=this.data[aux].cont+1; 
+            }
+            else{
+                var x= new tipos('identificador', palabra);
+            }
+        }
+        if(this.espalabraclave(palabra)){
+            if(this.repetido(palabra)){
+                var aux=this.buscarindex(palabra);
+                this.data[aux].cont=this.data[aux].cont+1; 
+            }
+            else{
+                var x= new tipos('palabra reservada', palabra);
+            }
+        }
+        else{
+            if(this.repetido(palabra)){
+                var aux=this.buscarindex(palabra);
+                this.data[aux].cont=this.data[aux].cont+1; 
+            }
+            else{
+                var x= new tipos('otro', palabra);
+            }
+        }
+    }
 //sacado de stack... mire si puede funcionar
     readText(file){
         var rawFile = new XMLHttpRequest();
