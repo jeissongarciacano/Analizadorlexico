@@ -9,7 +9,7 @@ class tipos {
     }
     //toString()
     vertipos(){
-        return this.tipo + ' : ' + this.cualesson +' se ubica en reglon: ' + this.reng + ' y en pocision: ' + this.cont ;
+         return this.cualesson + ' ' + this.tipo  + ' ' + this.reng + ' ' + this.cont ;
     }
 }
 class analis { 
