@@ -65,7 +65,7 @@ imprimirdata(){
     }
     // este es el que hice para separar palabras por espacios en un array siguiendo la documentacion de javaScript por que no entendi el metodo de arriba
    readTextS(file){
-        var arrayData = new Array():
+        var arrayData = new Array();
         var archivoTxt = new XMLHttpREquest();
         var fileRuta = file;
         archivoTXtx.open("GET",fileRuta,false);
