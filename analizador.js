@@ -1,7 +1,7 @@
 // JavaScript source code
 class tipos {
-    constructor(cont, tipo, cualesson) {
-        this.cont = cont;
+    constructor(tipo, cualesson) {
+        this.cont = 1;
         this.tipo = tipo;
         this.cualesson = cualesson;
     }
