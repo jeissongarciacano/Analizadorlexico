@@ -7,10 +7,6 @@ class tipos {
         this.cualesson = cualesson;
         this.cont =cont;
     }
-    //toString()
-    vertipos(){
-         return this.cualesson + ' ' + this.tipo  + ' ' + this.reng + ' ' + this.cont ;
-    }
 }
 class analis { 
     // datos necesarion para comparacion
@@ -23,10 +19,20 @@ class analis {
     constructor(){
         this.data= new Array();
     }
-    //imprime el arreglo data en consola
+    //imprime el arreglo data en la pantalla 
     imprimirdata(){
+        document.write("<table border= '3'>"); //crea la tabla
+        document.writeln("<td>" + 'palabra' + "</td>");
+        document.writeln("<td>" + 'tipo' + "</td>");
+        document.writeln("<td>" + 'renglon' + "</td>");
+        document.writeln("<td>" + 'posicion' + "</td>");
         for (let index = 0; index < this.data.length; index++) {
-            document.writeln(this.data[index].vertipos());
+            document.write("<tr>");
+            document.writeln("<td>" + this.data[index].cualesson + "</td>");
+            document.writeln("<td>" + this.data[index].tipo + "</td>");
+            document.writeln("<td>" + this.data[index].reng + "</td>");
+            document.writeln("<td>" + this.data[index].cont + "</td>");
+            document.write("</tr>");
         }
     }
     // verificadores de tipo, devuelven un booleano y se ingresa una palabra que se compara con los 
@@ -127,22 +133,4 @@ class analis {
     var main = new analis();
     main.lectorcad('while ( ) for if = hola /* while hola john');
     main.imprimirdata();
-
-    // separar una cadena por espacio
-   /* separar(){
-        var palabra = " ";
-        var espacio = " ";
-       while(i < cadena.length){
-           while(cadena.charAt(i) != espacio){
-                palabra += this.cadena.charAt(i);
-                i++;
-           }
-           Aqui iria un if para comparar con lo que se vaya a comparar
-           i++;
-       }
-
-    }
-*/
-}
-
 
