@@ -18,7 +18,6 @@ class analis {
     separador = [ '(', ')', ';','{', '}' ]
     constructor(){
         this.data= new Array();
-        this.reglon=1;
     }
     //imprime el arreglo data en la pantalla 
     imprimirdata(){
