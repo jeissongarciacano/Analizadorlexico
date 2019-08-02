@@ -9,7 +9,7 @@ class tipos {
     }
     //toString()
     vertipos(){
-        return this.tipo + ' se ubica en reglon: ' + this.reng + ' y en pocision: ' + this.cont  + ' y son: ' + this.cualesson;
+        return this.tipo + ' : ' + this.cualesson +' se ubica en reglon: ' + this.reng + ' y en pocision: ' + this.cont ;
     }
 }
 class analis { 
@@ -17,18 +17,38 @@ class analis {
     comentarios = ['//', '/*', '*/'];
     palabrasclaves = ['while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
      'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
-    identificadores = ['=', '(', ')', '+', '-', '*', '/', ';', '<', '>'];
+    identificadores = ['=', '+', '-', '*', '/', ';', '<', '>'];
+    tipodato = ['var', 'let', 'long'];
+    separador = [ '(', ')', ';','{', '}' ]
     constructor(){
         this.data= new Array();
     }
     //imprime el arreglo data en consola
     imprimirdata(){
         for (let index = 0; index < this.data.length; index++) {
-            console.log(this.data[index].vertipos());
+            document.writeln(this.data[index].vertipos());
         }
     }
     // verificadores de tipo, devuelven un booleano y se ingresa una palabra que se compara con los 
     // arreglos iniciales
+    estipodato(palabra){
+        var r = false;
+        for (let index = 0; index < this.tipodato.length; index++) {
+            if(palabra == this.tipodato[index]){
+                r=true;
+            }
+        }
+        return r;
+    }
+    esseparador(palabra){
+        var r = false;
+        for (let index = 0; index < this.separador.length; index++) {
+            if(palabra == this.separador[index]){
+                r=true;
+            }
+        }
+        return r;
+    }
     escomentario(palabra){
         var r = false;
         for (let index = 0; index < this.comentarios.length; index++) {
@@ -67,8 +87,14 @@ class analis {
         else if(this.espalabraclave(palabra)){
                 var x= new tipos('palabra reservada', palabra, contaux, rengaux);
         }
+        else if(this.esseparador(palabra)){
+            var x= new tipos('separador', palabra, contaux, rengaux);
+        }
+        else if(this.estipodato(palabra)){
+            var x= new tipos('tipo de dato', palabra, contaux, rengaux);
+        }
         else{
-                var x= new tipos('otro', palabra, contaux, rengaux);
+                var x= new tipos('variable', palabra, contaux, rengaux);
             }
             this.data.push(x);
         }
@@ -99,7 +125,7 @@ class analis {
        }*/
     }
     var main = new analis();
-    main.lectorcad('while ( ) for if = hola /* while');
+    main.lectorcad('while ( ) for if = hola /* while hola john');
     main.imprimirdata();
 
     // separar una cadena por espacio
