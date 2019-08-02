@@ -15,6 +15,7 @@ class analis {
      'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
     identificadores = ['=', '(', ')', '+', '-', '*', '/', ';', '<', '>', '&&', '||', '!'];
     constructor(){
+       this.data= new Array();
     }
     leer() {
         res = '';
@@ -48,6 +49,20 @@ class analis {
             }
         }
         return r;
+    }
+//sacado de stack... mire si puede funcionar
+    readText(file){
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, false);
+        rawFile.onreadystatechange = function (){
+            if(rawFile.readyState === 4){
+                if(rawFile.status === 200 || rawFile.status == 0){
+                    var allText = rawFile.responseText;
+                    alert(allText);
+                }
+            }
+        }
+        rawFile.send(null);
     }
     // separar una cadena por espacio
    /* separar(){
