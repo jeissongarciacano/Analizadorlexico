@@ -17,11 +17,10 @@ class analis {
     constructor(){
        this.data= new Array();
     }
-    leer() {
-        res = '';
-        longitud = 0;
-        ch;
-        ind= new BufferedReader();
+imprimirdata(){
+        for (let index = 0; index < this.data.length; index++) {
+            console.log(this.data[index].vertipos());
+        }
     }
   escomentario(palabra){
         r = false;
