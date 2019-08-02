@@ -114,23 +114,7 @@ class analis {
             contaux = contaux+1;
         }
     }
-  /*      readTextS(file){
-        var arrayData = new Array();
-        var archivoTxt = new XMLHttpREquest();
-        var fileRuta = file;
-        archivoTXt.open("GET",fileRuta,false);
-        archivoTxt.send(null);
-        var txt = archivoTxt.responseText;
-        
-        for(var i = 0; i < txt.length;i++){
-            palabra += txt.charAt(i);
-            if (txt.charAt(i+1) == espacio){
-                arrayData.push(palabra);
-            }	
-        }
-       }*/
     }
     var main = new analis();
     main.lectorcad('while ( ) for if = hola /* while hola john');
     main.imprimirdata();
-
