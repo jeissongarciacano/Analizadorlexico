@@ -1,6 +1,6 @@
 // JavaScript source code
 class tipos {
-    // se ingresa tipo(String) cualesson(token) cont(poscion en renglon) reng(renglon)
+    // se ingresa tipo(String) cont(poscion en renglon) reng(renglon)
     constructor(tipo, lex , cont , reng, col, tok) {
         this.reng = reng;
         this.tipo = tipo;
@@ -24,20 +24,20 @@ class analis {
     //imprime el arreglo data en la pantalla 
     imprimirdata(){
         document.write("<table border= '3'>"); //crea la tabla
+        document.writeln("<td>" + 'Token #' + "</td>");
+        document.writeln("<td>" + 'token' + "</td>");
         document.writeln("<td>" + 'lexema' + "</td>");
-        document.writeln("<td>" + 'token' + "</td>")
         document.writeln("<td>" + 'tipo' + "</td>");
         document.writeln("<td>" + 'renglon' + "</td>");
         document.writeln("<td>" + 'columna' + "</td>");
-        document.writeln("<td>" + 'Token #' + "</td>");
         for (let index = 0; index < this.data.length; index++) {
             document.write("<tr>");
-            document.writeln("<td>" + "'" + this.data[index].lexema + "'"  + "</td>");
+            document.writeln("<td>" + this.data[index].cont + "</td>");
             document.writeln("<td>" + this.data[index].token + "</td>");
+            document.writeln("<td>" + "'" + this.data[index].lexema + "'"  + "</td>");
             document.writeln("<td>" + this.data[index].tipo + "</td>");
             document.writeln("<td>" + this.data[index].reng + "</td>");
             document.writeln("<td>" + this.data[index].columna + "</td>");
-            document.writeln("<td>" + this.data[index].cont + "</td>");
             document.write("</tr>");
         }
     }
@@ -116,7 +116,7 @@ class analis {
         var auxreng = 1;
         var contaux = 1;
         var colaux= 1;
-        var tokaux= 'x';
+        var tokaux= 'no asignado';
         for (let index = 0; index < arrayaux.length; index++) {
             this.buscadortipo(arrayaux[index],auxreng, contaux, colaux, tokaux);
             contaux = contaux+1;
@@ -135,3 +135,5 @@ class analis {
     var main = new analis();
     main.lectorcad('while ( ) for if = hola /* while hola john ; while x y z');
     main.imprimirdata();
+
+ 
