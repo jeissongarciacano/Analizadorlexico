@@ -1,11 +1,13 @@
 // JavaScript source code
 class tipos {
     // se ingresa tipo(String) cualesson(token) cont(poscion en renglon) reng(renglon)
-    constructor(tipo, cualesson , cont , reng) {
+    constructor(tipo, lex , cont , reng, col, tok) {
         this.reng = reng;
         this.tipo = tipo;
-        this.cualesson = cualesson;
+        this.lexema = lex;
         this.cont =cont;
+        this.columna= col;
+        this.token = tok;
     }
 }
 class analis { 
@@ -15,22 +17,26 @@ class analis {
      'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
     identificadores = ['=', '+', '-', '*', '/', ';', '<', '>'];
     tipodato = ['var', 'let', 'long'];
-    separador = [ '(', ')', ';','{', '}' ]
+    separador = [ '(', ')', ';','{', '}' ];
     constructor(){
         this.data= new Array();
     }
     //imprime el arreglo data en la pantalla 
     imprimirdata(){
         document.write("<table border= '3'>"); //crea la tabla
-        document.writeln("<td>" + 'palabra' + "</td>");
+        document.writeln("<td>" + 'lexema' + "</td>");
+        document.writeln("<td>" + 'token' + "</td>")
         document.writeln("<td>" + 'tipo' + "</td>");
         document.writeln("<td>" + 'renglon' + "</td>");
-        document.writeln("<td>" + 'posicion' + "</td>");
+        document.writeln("<td>" + 'columna' + "</td>");
+        document.writeln("<td>" + 'Token #' + "</td>");
         for (let index = 0; index < this.data.length; index++) {
             document.write("<tr>");
-            document.writeln("<td>" + this.data[index].cualesson + "</td>");
+            document.writeln("<td>" + "'" + this.data[index].lexema + "'"  + "</td>");
+            document.writeln("<td>" + this.data[index].token + "</td>");
             document.writeln("<td>" + this.data[index].tipo + "</td>");
             document.writeln("<td>" + this.data[index].reng + "</td>");
+            document.writeln("<td>" + this.data[index].columna + "</td>");
             document.writeln("<td>" + this.data[index].cont + "</td>");
             document.write("</tr>");
         }
@@ -83,24 +89,24 @@ class analis {
         return r;
     }
     // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
-    buscadortipo(palabra, rengaux, contaux){
+    buscadortipo(palabra, rengaux, contaux, col, tok){
         if(this.escomentario(palabra)){
-                var x= new tipos('comentario', palabra, contaux, rengaux);
+                var x= new tipos('comentario', palabra, contaux, rengaux, col, tok);
         }
         else if(this.esidentificador(palabra)){
-                var x= new tipos('identificador', palabra, contaux, rengaux);
+                var x= new tipos('identificador', palabra, contaux, rengaux, col, tok);
         }
         else if(this.espalabraclave(palabra)){
-                var x= new tipos('palabra reservada', palabra, contaux, rengaux);
+                var x= new tipos('palabra reservada', palabra, contaux, rengaux, col, tok);
         }
         else if(this.esseparador(palabra)){
-            var x= new tipos('separador', palabra, contaux, rengaux);
+            var x= new tipos('separador', palabra, contaux, rengaux, col, tok);
         }
         else if(this.estipodato(palabra)){
-            var x= new tipos('tipo de dato', palabra, contaux, rengaux);
+            var x= new tipos('tipo de dato', palabra, contaux, rengaux, col, tok);
         }
         else{
-                var x= new tipos('variable', palabra, contaux, rengaux);
+                var x= new tipos('variable', palabra, contaux, rengaux, col, tok);
             }
             this.data.push(x);
         }
@@ -108,13 +114,24 @@ class analis {
     lectorcad(cad){
         var arrayaux = cad.split(' ');
         var auxreng = 1;
-        var contaux = 0;
+        var contaux = 1;
+        var colaux= 1;
+        var tokaux= 'x';
         for (let index = 0; index < arrayaux.length; index++) {
-            this.buscadortipo(arrayaux[index],auxreng, contaux);
+            this.buscadortipo(arrayaux[index],auxreng, contaux, colaux, tokaux);
             contaux = contaux+1;
+            if(arrayaux[index] == ';'){
+                auxreng= auxreng+1;
+                colaux = 1;
+            } 
+            else{
+                colaux = colaux+1;
+            }
+
         }
     }
+   
     }
     var main = new analis();
-    main.lectorcad('while ( ) for if = hola /* while hola john');
+    main.lectorcad('while ( ) for if = hola /* while hola john ; while x y z');
     main.imprimirdata();
