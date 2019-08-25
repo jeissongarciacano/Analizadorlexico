@@ -13,11 +13,17 @@ class tipos {
 class analis { 
     // datos necesarion para comparacion
     comentarios = ['//', '/*', '*/'];
+    comentarios2 = ['//', '/*', '*/'];
     palabrasclaves = ['while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
      'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
+    palabrasclaves2 = ['while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
+     'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
     identificadores = ['=', '+', '-', '*', '/', ';', '<', '>'];
+    identificadores2 = ['=', '+', '-', '*', '/', ';', '<', '>'];
     tipodato = ['var', 'let', 'long'];
+    tipodato2 = ['var', 'let', 'long'];
     separador = [ '(', ')', ';','{', '}' ];
+    separador2 = [ '(', ')', ';','{', '}' ];
     constructor(){
         this.data= new Array();
     }
@@ -88,25 +94,64 @@ class analis {
         }
         return r;
     }
+    bustok(palabra, nume){
+	var tok = palabra;
+	if(nume == 1){
+	   for (let index = 0; index < this.comentarios.length; index++){
+	        if(palabra == comentarios[index]){
+	           tok = comentarios2[index];
+	        }
+	   }
+	}
+	else if(nume == 2){
+	   for (let index = 0; index < this.identificadores.length; index++){
+	        if(palabra == identificadores[index]){
+	           tok = identificadores2[index];
+	        }
+	   }
+	}
+	else if(nume == 3){
+	   for (let index = 0; index < this.palabrasclaves.length; index++){
+	        if(palabra == palabrasclaves[index]){
+	           tok = palabrasclaves2[index];
+	        }
+	   }
+	}
+	else if(nume == 4){
+	   for (let index = 0; index < this.separador.length; index++){
+	        if(palabra == separador[index]){
+	           tok = separador2[index];
+	        }
+	   }
+	}
+	else{
+	   for (let index = 0; index < this.tipodato.length; index++){
+	        if(palabra == tipodato[index]){
+	           tok = tipodato2[index];
+	        }
+	   }
+	}
+	return tok;
+    }
     // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
-    buscadortipo(palabra, rengaux, contaux, col, tok){
+    buscadortipo(palabra, rengaux, contaux, col){
         if(this.escomentario(palabra)){
-                var x= new tipos('comentario', palabra, contaux, rengaux, col, tok);
+                var x= new tipos('comentario', palabra, contaux, rengaux, col, /*bustok(*/palabra/*, 1)*/);
         }
         else if(this.esidentificador(palabra)){
-                var x= new tipos('identificador', palabra, contaux, rengaux, col, tok);
+                var x= new tipos('identificador', palabra, contaux, rengaux, col,/*bustok(*/palabra/*, 2)*/);
         }
         else if(this.espalabraclave(palabra)){
-                var x= new tipos('palabra reservada', palabra, contaux, rengaux, col, tok);
+                var x= new tipos('palabra reservada', palabra, contaux, rengaux, col, /*bustok(*/palabra/*, 3)*/);
         }
         else if(this.esseparador(palabra)){
-            var x= new tipos('separador', palabra, contaux, rengaux, col, tok);
+            var x= new tipos('separador', palabra, contaux, rengaux, col,/*bustok(*/palabra/*, 4)*/);
         }
         else if(this.estipodato(palabra)){
-            var x= new tipos('tipo de dato', palabra, contaux, rengaux, col, tok);
+            var x= new tipos('tipo de dato', palabra, contaux, rengaux, col, /*bustok(*/palabra/*, 5)*/);
         }
         else{
-                var x= new tipos('variable', palabra, contaux, rengaux, col, tok);
+                var x= new tipos('variable', palabra, contaux, rengaux, col, palabra);
             }
             this.data.push(x);
         }
@@ -116,11 +161,10 @@ class analis {
         var auxreng = 1;
         var contaux = 1;
         var colaux= 1;
-        var tokaux= 'no asignado';
         for (let index = 0; index < arrayaux.length; index++) {
-            this.buscadortipo(arrayaux[index],auxreng, contaux, colaux, tokaux);
+            this.buscadortipo(arrayaux[index],auxreng, contaux, colaux);
             contaux = contaux+1;
-            if(arrayaux[index] == ';'){
+            if(arrayaux[index] == ';' || arrayaux[index] == '{' || arrayaux[index] == '}' ){
                 auxreng= auxreng+1;
                 colaux = 1;
             } 
@@ -133,7 +177,8 @@ class analis {
    
     }
     var main = new analis();
-    main.lectorcad('while ( ) for if = hola /* while hola john ; while x y z');
+    main.lectorcad('while ( ) for } } if = hola /* while hola john ; while x y z');
     main.imprimirdata();
+    document.writeln(bustok('while', 3));
 
  
