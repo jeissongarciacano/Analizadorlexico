@@ -12,16 +12,16 @@ class tipos {
 }
 class analis { 
     // datos necesarion para comparacion
-    comentarios = ['//', '/*', '*/'];
+    comentarios = ['comentariolinea', 'iniciocomentario', 'fincomentario'];
     comentarios2 = ['//', '/*', '*/'];
     palabrasclaves = ['while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
      'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this'];
     palabrasclaves2 = ['mientras', 'ciclofor', 'switch', 'var', 'si', 'sino', 'tratar', 'devolver', 'clase', 'throws', 'throw', 'funtion',
      'super', 'nuevo', 'importar', 'hacer', 'final', 'false', 'true', 'this'];
     identificadores = ['=', '+', '-', '*', '/',  '<', '>'];
-    identificadores2 = ['igual', 'suma', 'menos', 'mult', '/', 'menorque', 'mayorque'];
+    identificadores2 = ['igual', 'suma', 'menos', 'mult', 'backslash', 'menorque', 'mayorque'];
     tipodato = ['var', 'let', 'long'];
-    tipodato2 = ['var', 'let', 'long'];
+    tipodato2 = ['variable', 'numero', 'numerolong'];
     separador = [ '(', ')', ';','{', '}' ];
     separador2 = [ 'parentIzq', 'parenteDer', 'coma','corcheteIzq', 'corcheDer' ];
     constructor(){
