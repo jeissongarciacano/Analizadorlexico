@@ -20,54 +20,61 @@ class tipos {
 class analis { 
     // datos necesarion para comparacion 
     // // , /* , */
-    ab1= ['comentario'];
+     ab1= ['comentario'];
     a1= new tab(this.ab1,'//', 'comentariolinea' );
     a2= new tab(this.ab1,'/*', 'iniciocomentario' );
     a3= new tab(this.ab1,'*/', 'fincomentario' );
     // 'while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
     // 'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this', 'let', 'long'
-    ab2= ['palabraclave'];
-    a4= new tab(this.ab2,'while', 'mientras' );
-    a5= new tab(this.ab2,'for', 'ciclofor' );
-    a6= new tab(this.ab2,'switch', 'switch' );
-    ab3= ['palabraclave'];
-    a7= new tab(this.ab3,'if', 'si' );
-    ab4= ['palabraclave', 'tipo dato'];
-    a8= new tab(this.ab4,'var', 'var' );
+    ab2= ['palabraclave', 'ciclo'];
+    a4= new tab(this.ab2,'do', 'hacer' );
+    a5= new tab(this.ab2,'while', 'mientras' );
+    a6= new tab(this.ab2,'for', 'ciclofor' );
+    a7= new tab(this.ab2,'switch', 'switch' );
+    ab3= ['palabraclave', 'condicional'];
+    a8= new tab(this.ab3,'if', 'si' );
     a9= new tab(this.ab3,'else', 'sino' );
-    a10= new tab('comentario','try', 'tratar' );
-    a11= new tab('comentario','return', 'retornar' );
-    a12= new tab('comentario','class', 'clase' );
-    a13= new tab('comentario','throw', 'throw' );
-    a14= new tab('comentario','throws', 'throws' );
-    a15= new tab('comentario','funtion', 'funcion' );
-    a16= new tab('comentario','super', 'super' );
-    a17= new tab('comentario','new', 'nuevo' );
-    a18= new tab('comentario','import', 'importar' );
-    a19= new tab('comentario','do', 'hacer' );
-    a20= new tab('comentario','finally', 'final' );
-    a21= new tab('comentario','false', 'falso' );
-    a22= new tab('comentario','true', 'verdadero' );
-    a23= new tab('comentario','this', 'this' );
-    a24= new tab('comentario','let', 'let' );
-    a25= new tab('comentario','long', 'long' );
-    // '=', '+', '-', '*', '/',  '<', '>' , '<=' , '>='
-    a26= new tab('comentario','=', 'igual' );
-    a27= new tab('comentario','+', 'mas' );
-    a28= new tab('comentario','-', 'resta' );
-    a29= new tab('comentario','/', 'backslash' );
-    a30= new tab('comentario','<', 'menorque' );
-    a31= new tab('comentario','>', 'mayorque' );
-    a32= new tab('comentario','>=', 'mayorigualque' );
-    a33= new tab('comentario','<=', 'menorigualque' );
-    a35= new tab('comentario','==', 'igualigual' );
-    // '(', ')', ';','{', '}' , ','
-    a36= new tab('comentario','(', 'parentIzq' );
-    a37= new tab('comentario',')', 'parentDer' );
-    a38= new tab('comentario',';', 'cpuntocoma' );
-    a39= new tab('comentario','{', 'corcheteIzq' );
-    a40= new tab('comentario','}', 'corcheteDer' );
-    a41= new tab('comentario',',', 'coma' );
+    ab4= ['palabraclave', 'tipo dato'];
+    a10= new tab(this.ab4,'var', 'var' );
+    a11= new tab('comentario','long', 'long' );
+    ab5 = ['palabraclave']
+    a12= new tab(this.ab5,'try', 'tratar' );
+    a13= new tab(this.ab5,'return', 'retornar' );
+    a14= new tab(this.ab5 ,'class', 'clase' );
+    a15= new tab(this.ab5 ,'throw', 'throw' );
+    a16= new tab(this.ab5 ,'throws', 'throws' );
+    a17= new tab(this.ab5 ,'super', 'super' );
+    a18= new tab(this.ab5 ,'new', 'nuevo' );
+    a19= new tab(this.ab5 ,'import', 'importar' );
+    a20= new tab(this.ab5 ,'finally', 'final' );
+    a21= new tab(this.ab5 ,'this', 'this' );
+    a22= new tab(this.ab5  ,'let', 'let' );
+    a23= new tab(this.ab5,'funtion', 'funcion' );
+    a24= new tab(this.ab5 ,'false', 'falso' );
+    a25= new tab(this.ab5 ,'true', 'verdadero' );
+
+    // '=', '+', '-', '*', '/',  '<', '>' , '<=' , '>=' 
+    ab6=['operadorlogico', 'separador'];
+    a26= new tab(this.ab6,'=', 'igual' );
+    a27= new tab(this.ab6,'+', 'mas' );
+    a28= new tab(this.ab6,'-', 'resta' );
+    a29= new tab(this.ab6,'/', 'backslash' );
+    a30= new tab(this.ab6,'<', 'menorque' );
+    a31= new tab(this.ab6,'>', 'mayorque' );
+    a32= new tab(this.ab6,'>=', 'mayorigualque' );
+    a33= new tab(this.ab6,'<=', 'menorigualque' );
+    a35= new tab(this.ab6,'==', 'igualigual' );
+
+    //',' ,  ';' , ''' , ' '
+    ab7=['separador']
+    a36= new tab('comentario',',', 'coma' );
+    a37= new tab('comentario',';', 'cpuntocoma' );
+
+    // '(' , ')' , '{' , '}' 
+    a38= new tab('comentario','(', 'parentIzq' );
+    a39= new tab('comentario',')', 'parentDer' );
+    a40= new tab('comentario','{', 'corcheteIzq' );
+    a41= new tab('comentario','}', 'corcheteDer');
    
     lexemas = [this.a1,this.a2,this.a3,this.a4,this.a5,this.a6,this.a7,this.a8,this.a9, this.a10, this.a11,this.a12, this.a13, this.a14,this.a15, this.a16,this.a17,this.a18,this.a19,
      this.a20,this.a21,this.a22,this.a23,this.a24,this.a26,this.a27,this.a28,this.a29,this.a30,this.a31,this.a32,this.a33,this.a35,this.a36,this.a37,this.a38,this.a39,
