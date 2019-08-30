@@ -52,7 +52,6 @@ class analis {
     a23= new tab(this.ab5,'funtion', 'funcion' );
     a24= new tab(this.ab5 ,'false', 'falso' );
     a25= new tab(this.ab5 ,'true', 'verdadero' );
-
     // '=', '+', '-', '*', '/',  '<', '>' , '<=' , '>=' 
     ab6=['operadorlogico', 'separador'];
     a26= new tab(this.ab6,'=', 'igual' );
@@ -64,17 +63,16 @@ class analis {
     a32= new tab(this.ab6,'>=', 'mayorigualque' );
     a33= new tab(this.ab6,'<=', 'menorigualque' );
     a35= new tab(this.ab6,'==', 'igualigual' );
-
     //',' ,  ';' , ''' , ' '
     ab7=['separador']
-    a36= new tab('comentario',',', 'coma' );
-    a37= new tab('comentario',';', 'cpuntocoma' );
-
+    a36= new tab(this.ab7,',', 'coma' );
+    a37= new tab(this.ab7,';', 'cpuntocoma' );
     // '(' , ')' , '{' , '}' 
-    a38= new tab('comentario','(', 'parentIzq' );
-    a39= new tab('comentario',')', 'parentDer' );
-    a40= new tab('comentario','{', 'corcheteIzq' );
-    a41= new tab('comentario','}', 'corcheteDer');
+    ab8=['separador'];
+    a38= new tab(this.ab8,'(', 'parentIzq' );
+    a39= new tab(this.ab8,')', 'parentDer' );
+    a40= new tab(this.ab8,'{', 'corcheteIzq' );
+    a41= new tab(this.ab8,'}', 'corcheteDer');
    
     lexemas = [this.a1,this.a2,this.a3,this.a4,this.a5,this.a6,this.a7,this.a8,this.a9, this.a10, this.a11,this.a12, this.a13, this.a14,this.a15, this.a16,this.a17,this.a18,this.a19,
      this.a20,this.a21,this.a22,this.a23,this.a24,this.a26,this.a27,this.a28,this.a29,this.a30,this.a31,this.a32,this.a33,this.a35,this.a36,this.a37,this.a38,this.a39,
