@@ -99,10 +99,10 @@ class analis {
             document.write("</tr>");
         }
     }
-    // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
+    // busca el lexema, lo crea y almacena 
   crear(palabra, rengaux, contaux, col){
         var x=null;
-        var y= ['variable'];
+        var y= ['variable']; // casos de variables que no pertenecen al code de por si
         for (let i = 0; i < this.lexemas.length; i++) {
             if (this.lexemas[i].lexema== palabra) {
                 x= new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
