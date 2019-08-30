@@ -105,11 +105,11 @@ class analis {
         var y= ['variable'];
         for (let i = 0; i < this.lexemas.length; i++) {
             if (this.lexemas[i].lexema== palabra) {
-                x= new tipos(this.lexemas[i].tipodato, palabra, contaux, rengaux, col, this.lexemas[i].token);
+                x= new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
             }    
         }
         if(x==null){
-            x= new tipos('variable', palabra, contaux, rengaux, col, palabra);
+            x= new tipos('variable', palabra, contaux+40, rengaux, col, palabra);
         }
         this.data.push(x);
     }
