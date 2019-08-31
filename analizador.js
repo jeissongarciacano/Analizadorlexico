@@ -128,10 +128,23 @@ class analis {
             }    
         }
         if(x==null){
-            x= new tipos('variable', palabra, contaux + this.lexemas.length, rengaux, col, palabra);
+                var aux234= this.buscarsiexite(palabra);
+		if(aux234==0){
+			aux234=contaux + this.lexemas.length;
+		}		
+            x= new tipos('variable', palabra,aux234 , rengaux, col, palabra);
         }
         this.data.push(x);
     }
+   buscarsiexite(palabra){
+	var rx = 0;
+	for (let i = 0; i < this.data.length; i++) {
+		if(palabra==this.data[i].lexema){
+			rx= this.data[i].cont;
+		}
+		}
+		return rx;
+	}
     // lee la cadena ingresada y ejecuta el resto del codigo
     lectorcad(cad){
         var arrayaux = cad.split(' ');
