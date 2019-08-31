@@ -30,14 +30,17 @@ class analis {
     a5= new tab(this.ab2,'while', 'mientras' );
     a6= new tab(this.ab2,'for', 'ciclofor' );
     a7= new tab(this.ab2,'switch', 'switch' );
+    //
     ab3= ['palabraclave', 'condicional'];
     a8= new tab(this.ab3,'if', 'si' );
     a9= new tab(this.ab3,'else', 'sino' );
+    //
     ab4= ['palabraclave', 'tipo dato'];
     a10= new tab(this.ab4,'var', 'var' );
     a11= new tab('comentario','long', 'long' );
     a12= new tab(this.ab5  ,'let', 'let' );
-    ab5 = ['palabraclave']
+    //
+    ab5 = ['palabraclave'];
     a13= new tab(this.ab5,'try', 'tratar' );
     a14= new tab(this.ab5,'return', 'retornar' );
     a15= new tab(this.ab5 ,'class', 'clase' );
@@ -79,8 +82,6 @@ class analis {
     a49= new tab(this.ab6,'-=', 'menosIgual' );
     a50= new tab(this.ab6,'*=', 'porIgual' );
     a51= new tab(this.ab6,'/=', 'entreIgual' );
-    
-
     //',' ,  ';' , ''' , ' '
     ab7=['separador']
     a52= new tab(this.ab7,',', 'coma' );
@@ -124,7 +125,7 @@ class analis {
         var y= ['variable'];
         for (let i = 0; i < this.lexemas.length; i++) {
             if (this.lexemas[i].lexema== palabra) {
-                x= new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
+                x= new tipos(this.lexemas[i].tipodato, palabra, i+1, rengaux, col, this.lexemas[i].token);
             }    
         }
         if(x==null){
