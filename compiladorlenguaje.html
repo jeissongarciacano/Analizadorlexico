@@ -197,9 +197,14 @@ class analis {
         var x=null;
         var y= ['variable'];
         for (let i = 0; i < this.lexemas.length; i++) {
-            if (this.lexemas[i].lexema== palabra) {
+            if (this.lexemas[i].lexema == palabra) {
                 x= new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
             }    
+        }
+        for (let index = 0; index < this.data.length; index++) {
+            if(this.data[index].lexema ==palabra){
+                x= new tipos('variable', palabra, this.data[index].cont, rengaux, col, palabra);  
+            }
         }
         if(x==null){
             x= new tipos('variable', palabra, contaux+40, rengaux, col, palabra);
