@@ -132,13 +132,15 @@ class analis {
                 x= new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
             }    
         }
+        if(x==null){
         for (let index = 0; index < this.data.length; index++) {
             if(this.data[index].lexema ==palabra){
-                x= new tipos('variable', palabra, this.data[index].cont, rengaux, col, palabra);  
+                x= new tipos(this.data[index].tipo, palabra, this.data[index].cont, rengaux, col, palabra);  
             }
         }
-        if(x==null){
-            x= new tipos('variable', palabra, contaux+40, rengaux, col, palabra);
+            if(x==null){
+             x= new tipos('variable', palabra, contaux+40, rengaux, col, palabra);    
+            }
         }
         this.data.push(x);
     }
