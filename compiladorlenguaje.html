@@ -7,10 +7,14 @@
     <body>
         <form name=FormularioDatos> 
         <textarea name=comentarios rows="10" cols="40"></textarea>
-        <input type=button value="Analizar >>>" onclick="var main = new analis();"> 
+        <input type=button value="Analizar >>>" onclick="reactivo();">
+        <textarea name=salida rows=25 cols=80></textarea>
         </form>
         <script>
  // JavaScript source code
+ function reactivo(){
+    var main = new analis();
+ }
 class tab{
     constructor(tipodato, lexema, token){
         this.tipodato=tipodato;
@@ -85,13 +89,14 @@ class analis {
     a39= new tab(this.ab8,')', 'parentDer' );
     a40= new tab(this.ab8,'{', 'corcheteIzq' );
     a41= new tab(this.ab8,'}', 'corcheteDer');
+    a41= new tab(this.ab8,'.', 'punto');
    
     lexemas = [this.a1,this.a2,this.a3,this.a4,this.a5,this.a6,this.a7,this.a8,this.a9, this.a10, this.a11,this.a12, this.a13, this.a14,this.a15, this.a16,this.a17,this.a18,this.a19,
     this.a20,this.a21,this.a22,this.a23,this.a24,this.a26,this.a27,this.a28,this.a29,this.a30,this.a31,this.a32,this.a33,this.a35,this.a36,this.a37,this.a38,this.a39,
     this.a40,this.a41];
     constructor(){
         this.data= new Array();
-        this.lectorcad();
+        this.main();
     }   
     //imprime el arreglo data en la pantalla 
     imprimirdata(){
@@ -147,12 +152,28 @@ class analis {
     // lee la cadena ingresada y ejecuta el resto del codigo
     lectorcad(){
         var cad = document.FormularioDatos.comentarios.value;
-        var arrayaux = cad.split(' ');
+        //var arrayaux = cad.split('');
+        var array34 = cad.split('');
+        var arrayaux= new Array();
+        var texto = '';
+        for (let i = 0; i < array34.length; i++) {
+            if(array34[i]==' ' || array34[i]== '.'|| array34[i]== ';' || array34[i]== '+' || array34[i]== '-'|| array34[i]== '*'|| array34[i]== '/'
+            || array34[i]== '<'|| array34[i]== '>'|| array34[i]== '='|| array34[i]== '('|| array34[i]== ')'|| array34[i]== '{'
+            || array34[i]== '}' ){
+                arrayaux.push(texto);
+                arrayaux.push(array34[i]);
+                texto='';
+            }
+            else{
+                texto= texto+array34[i];
+            }
+            
+        }
+
         var auxreng = 1;
         var contaux = 1;
         var colaux= 1;
         for (let index = 0; index < arrayaux.length; index++) {
-            //this.buscadortipo(arrayaux[index],auxreng, contaux, colaux);
             this.crear(arrayaux[index], auxreng,contaux, colaux);
             contaux = contaux+1;
             if(arrayaux[index] == ';' || arrayaux[index] == '{' || arrayaux[index] == '}' ){
@@ -163,11 +184,33 @@ class analis {
                 colaux = colaux+1;
             }
         }
-        this.imprimirdata();
+    }
+    main(){
+        this.lectorcad();
+    //analizador sintaxis logica
+        var PosicionCinta = 0;
+        var DetectadoErrorSintaxis = 0;
+        var TokenEntrada = '';
+        var a=true;
+        //var CadenaAnalizada = '';
+        var CadenaAnalizada = new Array();
+        var array1 = [0,1,2,3,4,5,6,7,8,9,'/','*','-','+'];
+        for (let i = 0; i < this.data.length; i++) {
+            for (let index = 0; index < array1.length; index++) {
+                if(this.data[i].lexema==array1[index]){
+                    CadenaAnalizada.push(this.data[i].lexema);
+                }
+            }
+        }
+       //AnalizarCadena(CadenaAnalizada);
+       
+       if(a){
+        this.imprimirdata(); 
+       }
     }
     }
     //var main = new analis();
     //main.lectorcad('while ( ) for } } if = hola /* while hola john ; while x y z');
-      </script>
+          </script>
     </body>
 </html>
