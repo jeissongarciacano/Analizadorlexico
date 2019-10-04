@@ -1,7 +1,5 @@
-
 <html>
 <body>
-<!--<form name=FormularioDatos><input type=text name=CadenaIngresada><input type=button value=Analizar onclick="AnalizarCadena();"></form> -->
 <form name=FormularioDatos>
 	<input type=text name=CadenaIngresada>
 	<input type=button value="Analizar >>>" onclick="AnalizarCadena();"> <input type=button value='Reiniciar' onclick='location.reload(true)'><br>
@@ -29,10 +27,8 @@ function PresentarError(complemento)
 			{
 				PresentarMensaje("ERROR en token: "+TokenEntrada+" "+complemento);
 			}
-			else{
-				PresentarMensaje("ERROR en token: "+TokenEntrada+" "+complemento);
-			}
 	 }
+
 function Expresion()
 	{
 		LlevarLog("Expresion");
@@ -45,7 +41,7 @@ function ExpresionPrima()
 		if (typeof(TokenEntrada) !== 'undefined')
 			{
 				LlevarLog("ExpresionPrima");
-				if (TokenEntrada == '+')
+				if (TokenEntrada=='+')
 					{
 						HacerMatch('+');
 						Termino();
@@ -53,7 +49,7 @@ function ExpresionPrima()
 					}
 				else
 					{
-						if (TokenEntrada == '-')
+						if (TokenEntrada=='-')
 							{
 								HacerMatch('-');
 								Termino();
@@ -61,7 +57,7 @@ function ExpresionPrima()
 							}
 						else
 							{
-								PresentarError("ERROR en token: " + TokenEntrada + " ");
+								PresentarError("ERROR en token: "+TokenEntrada+" ");
 								//No hacer nada: Epsilon
 							}
 					}
@@ -80,7 +76,7 @@ function TerminoPrima()
 		if (typeof(TokenEntrada) !== 'undefined')
 			{
 				LlevarLog("TerminoPrima");
-				if (TokenEntrada == '*')
+				if (TokenEntrada=='*')
 					{
 						HacerMatch('*');
 						Factor();
@@ -102,7 +98,7 @@ function TerminoPrima()
 			}		
 	}
 
-/*function Factor()
+function Factor()
 	{
 		if (typeof(TokenEntrada) !== 'undefined')
 			{
@@ -113,8 +109,7 @@ function TerminoPrima()
 					}
 			}
 	}
-	*/
-
+	
 function HacerMatch(t)
 	{
 		if (typeof(TokenEntrada) !== 'undefined')
@@ -130,166 +125,70 @@ function HacerMatch(t)
 			}
 	}
 
-function Digito()
-	{
-		if (!isNaN(TokenEntrada))
-			{
-				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
-				HacerMatch(TokenEntrada);
-			}
-		else
-			{
-				//PresentarError();
-			}
-	}
-
-	
-
-function NumeroPrima()
-	{
-		if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
-			{
-				Digito();
-				NumeroPrima();
-			}
-		/*else  // si no es un numero se hace nada(epsilon)
-			{
-				//No hacer nada: Epsilon
-				if (typeof(TokenEntrada) !== 'undefined')
-					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
-					}
-			}*/
-	}
-
 function Numero()
 	{
+		LlevarLog("Numero");
 		Digito();
 		NumeroPrima();
 	}
 
-	function EsLetra(str)
+function NumeroPrima()
 	{
-		/*if(caracter == "a")
-			return true;
-		else {
-			return false;
-		}*/
-		return str.length === 1 && str.match(/[a-z]/i);
-
-	}
-
-	function Letra()
-	{
-		if (EsLetra(TokenEntrada))
+		if (typeof(TokenEntrada) !== 'undefined')
 			{
-				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
-				HacerMatch(TokenEntrada);
-			}
-		else
-			{
-				//PresentarError();
-			}
-	}
-
-	function IdentificadorPrima()
-	{
-		if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
-			{
-				Letra();
-				IdentificadorPrima();
-			}
-		/*else  // si no es un numero se hace nada(epsilon)
-			{
-				//No hacer nada: Epsilon
-				if (typeof(TokenEntrada) !== 'undefined')
+				LlevarLog("NumeroPrima");
+				if (!isNaN(TokenEntrada))
 					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
+						Digito();
+						NumeroPrima();
+					}
+				else
+					{
+						//No hacer nada: Epsilon
 					}
 			}
-			*/
 	}
 
-	function Identificador()
+function Digito()
 	{
-		Letra();
-		IdentificadorPrima();
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				LlevarLog("Digito");
+				if (!isNaN(TokenEntrada))
+					{
+						HacerMatch(TokenEntrada);
+					}
+				else
+					{
+						PresentarError("Se esperaba un digito");
+					}
+			}
 	}
 
 function ObtenerToken()
 	{
 		if (typeof(CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
 			PresentarMensaje("Analizando token: "+CadenaAnalizada[PosicionCinta - 1]);
-		
-		if (typeof(CadenaAnalizada[PosicionCinta - 1]) === '+' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '-' &&  typeof(CadenaAnalizada[PosicionCinta - 1]) === '*' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '/')
-		{
-			if(typeof(CadenaAnalizada[PosicionCinta - 1]) === typeof(CadenaAnalizada[PosicionCinta - 2]))
-			{
-				PresentarError(CadenaAnalizada[PosicionCinta - 1])
+		if(PosicionCinta>0){
+			if(PosicionCinta==CadenaAnalizada.length-1 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
+				PresentarError(CadenaAnalizada[PosicionCinta]);
+				return;
+			}
+			else if(CadenaAnalizada[PosicionCinta-1]== '/'|| CadenaAnalizada[PosicionCinta-1]== '*'|| CadenaAnalizada[PosicionCinta-1]== '+'|| CadenaAnalizada[PosicionCinta-1]== '-' ){
+				if(CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-'){
+					PresentarError(CadenaAnalizada[PosicionCinta]);
+					return;
+				}
 			}
 		}
-		PosicionCinta = PosicionCinta + 1   // se ubica en la posicion siguiente de la cinta
-		return (CadenaAnalizada[PosicionCinta - 1])  // se imprime la anterior
-	}
-
-function Factor()
-{
-	if (typeof(TokenEntrada) !== 'undefined')
-	{
-		LlevarLog("Factor");
-		if (EsLetra(TokenEntrada))	{
-			Identificador();
-			FactorPrima();
-
-		} else {
-			if (!isNaN(TokenEntrada)){
-				Numero();
-				FactorPrima();
-
-			}else {
-				//No hacer nada: Epsilon
-				/*if (typeof(TokenEntrada) !== 'undefined')
-						{
-							document.write("<hr>ERROR token: "+TokenEntrada);
-							DetectadoErrorSintaxis=1;
-
-						}
-
-*/
-			}
-			
+		else if(PosicionCinta==0 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
+			PresentarError(CadenaAnalizada[PosicionCinta]);
+			return;
 		}
+
+		PosicionCinta = PosicionCinta + 1
+		return (CadenaAnalizada[PosicionCinta - 1])
 	}
-}
-
-function FactorPrima ()
-{
-	if (EsLetra(TokenEntrada))	{
-		Identificador();
-		FactorPrima();
-
-	} else {
-		if (!isNaN(TokenEntrada)){
-			Numero();
-			FactorPrima();
-
-		}else {
-			//No hacer nada: Epsilon
-		/*	if (typeof(TokenEntrada) !== 'undefined')
-					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
-
-					}
-
-*/
-		}
-		
-	}
-
-}
 
 function AnalizarCadena()
 	{
@@ -298,23 +197,19 @@ function AnalizarCadena()
 		document.FormularioDatos.salida.value="";
 		PresentarMensaje("Verificando sintaxis para: "+CadenaAnalizada+"\n---------------------------------------------------------------");
 		TokenEntrada = ObtenerToken();
-		
-		//Numero();  // inicio de gramatica      
-		//Identificador();         
-		//Factor();
 		Expresion();
-/*
+		//MANEJADOR DE ERRORES (inicialmente para numeros)
 		//Cuando termina si hubo error hace otras pasadas
 		while (DetectadoErrorSintaxis==1)
 			{
-				DetectadoErrorSintaxis = 0;  //
-				PosicionCinta+=2;
-				TokenEntrada = ObtenerToken();
-				Numero(); //para que arranque de nuevo
+			DetectadoErrorSintaxis = 0;
+			PosicionCinta+=2;
+			TokenEntrada = ObtenerToken();
+			Expresion();
 			}
-		*/	
-	}
 
+		//Opcion para regresar a la evaluacion
+	}
 </script>
 </body>
 </html>
