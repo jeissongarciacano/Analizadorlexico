@@ -89,11 +89,13 @@ class analis {
     a39= new tab(this.ab8,')', 'parentDer' );
     a40= new tab(this.ab8,'{', 'corcheteIzq' );
     a41= new tab(this.ab8,'}', 'corcheteDer');
-    a41= new tab(this.ab8,'.', 'punto');
+    a42= new tab(this.ab8,'.', 'punto');
+    a43= new tab(this.ab8,' ', 'espacio');
+    a44= new tab(this.ab8,'', 'espacio');
    
     lexemas = [this.a1,this.a2,this.a3,this.a4,this.a5,this.a6,this.a7,this.a8,this.a9, this.a10, this.a11,this.a12, this.a13, this.a14,this.a15, this.a16,this.a17,this.a18,this.a19,
     this.a20,this.a21,this.a22,this.a23,this.a24,this.a26,this.a27,this.a28,this.a29,this.a30,this.a31,this.a32,this.a33,this.a35,this.a36,this.a37,this.a38,this.a39,
-    this.a40,this.a41];
+    this.a40,this.a41,this.a42,this.a43, this.a44];
     constructor(){
         this.data= new Array();
         this.main();
@@ -167,7 +169,9 @@ class analis {
             else{
                 texto= texto+array34[i];
             }
-            
+        }
+        if(texto!= ''){
+            arrayaux.push(texto);
         }
 
         var auxreng = 1;
@@ -192,25 +196,30 @@ class analis {
         var DetectadoErrorSintaxis = 0;
         var TokenEntrada = '';
         var a=true;
-        //var CadenaAnalizada = '';
-        var CadenaAnalizada = new Array();
-        var array1 = [0,1,2,3,4,5,6,7,8,9,'/','*','-','+'];
+        var CadenaAnalizada = '';
+        var array1 = [0,1,2,3,4,5,6,7,8,9,'/','*','-','+', '(', ')'];
         for (let i = 0; i < this.data.length; i++) {
             for (let index = 0; index < array1.length; index++) {
                 if(this.data[i].lexema==array1[index]){
-                    CadenaAnalizada.push(this.data[i].lexema);
+                    CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
                 }
+                else{
+                  if(CadenaAnalizada!= ''){
+                   AnalizarCadena(CadenaAnalizada);  
+                   CadenaAnalizada=''; 
+                 }   
+                }  
             }
         }
-       //AnalizarCadena(CadenaAnalizada);
-       
-       if(a){
+       if(!a){
         this.imprimirdata(); 
        }
     }
     }
     //var main = new analis();
     //main.lectorcad('while ( ) for } } if = hola /* while hola john ; while x y z');
+    
+    //analizador sintaxis logica
           </script>
     </body>
 </html>
