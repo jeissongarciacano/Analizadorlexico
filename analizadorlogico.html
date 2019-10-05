@@ -169,15 +169,15 @@ function ObtenerToken()
 	{
 		if (typeof(CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
 			PresentarMensaje("Analizando token: "+CadenaAnalizada[PosicionCinta - 1]);
-		if(PosicionCinta>0){
+        	if(PosicionCinta>0){
 			if(PosicionCinta==CadenaAnalizada.length-1 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
 				PresentarError(CadenaAnalizada[PosicionCinta]);
 				return;
 			}
-			else if(CadenaAnalizada[PosicionCinta-1]== '/'|| CadenaAnalizada[PosicionCinta-1]== '*'|| CadenaAnalizada[PosicionCinta-1]== '+'|| CadenaAnalizada[PosicionCinta-1]== '-' ){
-				if(CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-'){
-					PresentarError(CadenaAnalizada[PosicionCinta]);
-					return;
+		else if(CadenaAnalizada[PosicionCinta-1]== '/'|| CadenaAnalizada[PosicionCinta-1]== '*'|| CadenaAnalizada[PosicionCinta-1]== '+'|| CadenaAnalizada[PosicionCinta-1]== '-' ){
+			if(CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-'){
+				PresentarError(CadenaAnalizada[PosicionCinta]);
+				return;
 				}
 			}
 		}
