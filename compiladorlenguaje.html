@@ -101,24 +101,25 @@ class analis {
         this.main();
     }   
     //imprime el arreglo data en la pantalla 
-    imprimirdata(){
-        document.write("<table border= '3'>"); //crea la tabla
-        document.writeln("<td>" + 'Token #' + "</td>");
-        document.writeln("<td>" + 'token' + "</td>");
-        document.writeln("<td>" + 'lexema' + "</td>");
-        document.writeln("<td>" + 'tipo' + "</td>");
-        document.writeln("<td>" + 'renglon' + "</td>");
-        document.writeln("<td>" + 'columna' + "</td>");
+    imprimirdata() {
+          var ventana = window.open('', 'PRINT', 'height=400,width=600');
+        ventana.document.write("<table border= '3'>"); //crea la tabla
+        ventana.document.writeln("<td>" + 'Token #' + "</td>");
+        ventana.document.writeln("<td>" + 'token' + "</td>");
+        ventana.document.writeln("<td>" + 'lexema' + "</td>");
+        ventana.document.writeln("<td>" + 'tipo' + "</td>");
+        ventana.document.writeln("<td>" + 'renglon' + "</td>");
+        ventana.document.writeln("<td>" + 'columna' + "</td>");
         var aux32= 1;
         for (let index = 0; index < this.data.length; index++) {
-            document.write("<tr>");
-            document.writeln("<td>" + this.data[index].cont + "</td>");
-            document.writeln("<td>" + this.data[index].token + "</td>");
-            document.writeln("<td>" + "'" + this.data[index].lexema + "'"  + "</td>");
-            document.writeln("<td>" + this.data[index].tipo + "</td>");
-            document.writeln("<td>" + this.data[index].reng + "</td>");
-            document.writeln("<td>" + this.data[index].columna + "</td>");
-            document.write("</tr>");
+            ventana.document.write("<tr>");
+            ventana.document.writeln("<td>" + this.data[index].cont + "</td>");
+            ventana.document.writeln("<td>" + this.data[index].token + "</td>");
+            ventana.document.writeln("<td>" + "'" + this.data[index].lexema + "'"  + "</td>");
+            ventana.document.writeln("<td>" + this.data[index].tipo + "</td>");
+            ventana.document.writeln("<td>" + this.data[index].reng + "</td>");
+            ventana.document.writeln("<td>" + this.data[index].columna + "</td>");
+            ventana.document.write("</tr>");
             aux32=aux32+1;
         }
     }
@@ -203,7 +204,7 @@ class analis {
                 }  
             }
         }
-        //this.imprimirdata(); 
+        this.imprimirdata(); 
     }
     }
     //var main = new analis();
