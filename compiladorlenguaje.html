@@ -121,14 +121,6 @@ class analis {
             document.write("</tr>");
             aux32=aux32+1;
         }
-       /* document.write("<tr>");
-        document.writeln("<td>" + aux32 + "</td>");
-        document.writeln("<td>" + 'espacio' + "</td>");
-        document.writeln("<td>" + "' '"  + "</td>");
-        document.writeln("<td>" + 'separador' + "</td>");
-        document.writeln("<td>" + 'vecepresente: ->' + "</td>");
-        document.writeln("<td>" + aux32 + "</td>");
-        document.write("</tr>");*/
     }
     // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
     crear(palabra, rengaux, contaux, col){
@@ -173,7 +165,6 @@ class analis {
         if(texto!= ''){
             arrayaux.push(texto);
         }
-
         var auxreng = 1;
         var contaux = 1;
         var colaux= 1;
@@ -204,22 +195,411 @@ class analis {
                     CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
                 }
                 else{
-                  if(CadenaAnalizada!= ''){
-                   AnalizarCadena(CadenaAnalizada);  
-                   CadenaAnalizada=''; 
+                  if(CadenaAnalizada!= '' ){
+                      AnalizarCadena(CadenaAnalizada);
+                      //CadenaAnalizada = '';
+ 
                  }   
                 }  
             }
         }
-       if(!a){
-        this.imprimirdata(); 
-       }
+        //this.imprimirdata(); 
     }
     }
     //var main = new analis();
     //main.lectorcad('while ( ) for } } if = hola /* while hola john ; while x y z');
     
     //analizador sintaxis logica
+            function LlevarLog(mensaje)
+	 {
+		console.log("Para "+TokenEntrada+" "+mensaje);
+	 }
+
+function PresentarMensaje(mensaje)
+	 {
+		document.FormularioDatos.salida.value+=mensaje+"\n";
+	 }
+
+function PresentarError(complemento)
+	 {
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				if (TokenEntrada == ' '){
+					PresentarMensaje("ERROR en token:  (Espacio) " + " " +complemento);
+				} else if (Parentesis() != 0) {
+					PresentarMensaje(complemento)
+				} else {
+				PresentarMensaje("ERROR en token: "+TokenEntrada+" "+complemento);
+				}
+			}
+	 }
+function Expresion()
+	{
+		if (Parentesis() == 0){
+			Termino();
+			ExpresionPrima();
+		}else if(Parentesis() < 0){
+			PresentarError (' Se encontraron ' + Math.abs(Parentesis())+ '   parentesis  más de  cierre' );
+		}else {
+			PresentarError(' Se encontraron ' + Math.abs(Parentesis())+ ' parentesis más de abertura');
+		}
+		/*LlevarLog("Expresion");
+		Termino();
+		ExpresionPrima();*/
+	}
+
+function ExpresionPrima()
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				LlevarLog("ExpresionPrima");
+				if (TokenEntrada == '+')
+					{
+						HacerMatch('+');
+						Termino();
+						ExpresionPrima();
+					}
+				else
+					{
+						if (TokenEntrada == '-')
+							{
+								HacerMatch('-');
+								Termino();
+								ExpresionPrima();
+							}
+						else 
+							{
+								PresentarError("ERROR en token: " + TokenEntrada + " ");
+								//No hacer nada: Epsilon
+							}
+					}
+			}	
+	}
+
+function Termino()
+	{
+
+		LlevarLog("Termino");
+		Factor();
+		TerminoPrima();
+	}
+
+function TerminoPrima()
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				LlevarLog("TerminoPrima");
+				if (TokenEntrada == '*')
+					{
+						HacerMatch('*');
+						Factor();
+						TerminoPrima();
+					}
+				else
+					{
+						if (TokenEntrada=='/')
+							{
+								HacerMatch('/');
+								Factor();
+								TerminoPrima();
+							}
+						else
+							{
+								//No hacer nada: Epsilon
+							}
+					}
+			}		
+	}
+
+/*function Factor()
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				LlevarLog("Factor");
+				if (!isNaN(TokenEntrada))
+					{
+						Numero();
+					}
+			}
+	}
+	*/
+
+function HacerMatch(t)
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				if (t != TokenEntrada)
+					{
+						PresentarError("Se esperaba " +t);
+					}
+				else
+					{
+						TokenEntrada = ObtenerToken();
+					}
+			}
+	}
+
+function Digito()
+	{
+		if (!isNaN(TokenEntrada))
+			{
+				LlevarLog("Digito");
+				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
+				HacerMatch(TokenEntrada);
+			}
+		else
+			{
+				//PresentarError();
+			}
+	}
+
+	
+
+function NumeroPrima()
+	{
+		if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
+			{
+				LlevarLog("NumeroPrima");
+				Digito();
+				NumeroPrima();
+			}
+		/*else  // si no es un numero se hace nada(epsilon)
+			{
+				//No hacer nada: Epsilon
+				if (typeof(TokenEntrada) !== 'undefined')
+					{
+						document.write("<hr>ERROR token: "+TokenEntrada);
+						DetectadoErrorSintaxis=1;
+					}
+			}*/
+	}
+
+function Numero()
+	{
+		LlevarLog("Numero");
+		Digito();
+		NumeroPrima();
+	}
+
+	function EsLetra(str)
+	{
+		/*if(caracter == "a")
+			return true;
+		else {
+			return false;
+		}*/
+		//return str.length === 1 && str.match(/[a-z]/i);
+
+	}
+
+	function Letra()
+	{
+		
+		if (EsLetra(TokenEntrada))
+			{
+				LlevarLog("Letra");
+				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
+				HacerMatch(TokenEntrada);
+			}
+		else
+			{
+				//PresentarError();
+			}
+	}
+
+	function IdentificadorPrima()
+	{
+		if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
+			{
+				LlevarLog("IdentificadorPrima");
+				Letra();
+				IdentificadorPrima();
+			}
+		/*else  // si no es un numero se hace nada(epsilon)
+			{
+				//No hacer nada: Epsilon
+				if (typeof(TokenEntrada) !== 'undefined')
+					{
+						document.write("<hr>ERROR token: "+TokenEntrada);
+						DetectadoErrorSintaxis=1;
+					}
+			}
+			*/
+	}
+
+	function Identificador()
+	{
+		LlevarLog("Identificador");
+		Letra();
+		IdentificadorPrima();
+	}
+
+function ObtenerToken()
+	{
+		if (typeof(CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
+			PresentarMensaje("Analizando token: "+CadenaAnalizada[PosicionCinta - 1]);
+		
+		if (typeof(CadenaAnalizada[PosicionCinta - 1]) === '+' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '-' &&  typeof(CadenaAnalizada[PosicionCinta - 1]) === '*' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '/')
+		{
+			if(typeof(CadenaAnalizada[PosicionCinta - 1]) === typeof(CadenaAnalizada[PosicionCinta - 2]))
+			{
+				PresentarError(CadenaAnalizada[PosicionCinta - 1])
+			}
+		}
+
+		if (PosicionCinta > 0){
+			
+			if(PosicionCinta==CadenaAnalizada.length-1 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
+				PresentarError(CadenaAnalizada[PosicionCinta]);
+				return;
+			}
+			else if(CadenaAnalizada[PosicionCinta-1]== '/'|| CadenaAnalizada[PosicionCinta-1]== '*'|| CadenaAnalizada[PosicionCinta-1]== '+'|| CadenaAnalizada[PosicionCinta-1]== '-' ){
+					if(CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-'){
+						PresentarError(CadenaAnalizada[PosicionCinta]);
+						return;
+					}
+				}
+			else if(CadenaAnalizada[PosicionCinta-1]== ' '){
+				PresentarError(CadenaAnalizada[PosicionCinta - 1]);
+						return;
+			}
+		} else if(PosicionCinta==0 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-' || CadenaAnalizada[PosicionCinta]== ')')){
+			PresentarError(CadenaAnalizada[PosicionCinta]);
+			return;
+		}
+
+		PosicionCinta = PosicionCinta + 1   // se ubica en la posicion siguiente de la cinta
+		return (CadenaAnalizada[PosicionCinta - 1])  // se imprime la anterior
+	}
+
+function Factor()
+{
+	LlevarLog("Factor");
+	if (typeof(TokenEntrada) !== 'undefined')
+	{
+		/*if(TokenEntrada == '('){
+			HacerMatch('(');
+
+			Factor();
+
+			if(TokenEntrada == ')'){
+				HacerMatch(')');
+			}
+		}*/
+	if(TokenEntrada == '('){
+		HacerMatch('(');
+		Factor();
+	}		
+
+	if(TokenEntrada == ')'){
+		HacerMatch(')');
+		Factor();
+	}
+		
+		 if (EsLetra(TokenEntrada))	{
+			Identificador();
+			FactorPrima();
+
+		} else {
+			if (!isNaN(TokenEntrada)){
+				Numero();
+				FactorPrima();
+
+			}else {
+				//No hacer nada: Epsilon
+				/*if (typeof(TokenEntrada) !== 'undefined')
+						{
+							document.write("<hr>ERROR token: "+TokenEntrada);
+							DetectadoErrorSintaxis=1;
+
+						}
+
+*/
+			}
+			
+		}
+	}
+}
+
+function FactorPrima ()
+{
+	LlevarLog("FactorPrima");
+	if(TokenEntrada == '('){
+			HacerMatch('(');
+			FactorPrima();
+
+	}		
+
+	if(TokenEntrada == ')'){
+		HacerMatch(')');
+		FactorPrima();
+	}
+		
+	if (EsLetra(TokenEntrada))	{
+		Identificador();
+		FactorPrima();
+
+	} else {
+		if (!isNaN(TokenEntrada)){
+			Numero();
+			FactorPrima();
+
+		}else {
+			//No hacer nada: Epsilon
+		/*	if (typeof(TokenEntrada) !== 'undefined')
+					{
+						document.write("<hr>ERROR token: "+TokenEntrada);
+						DetectadoErrorSintaxis=1;
+
+					}
+
+*/
+		}
+		
+	}
+
+}
+
+function Parentesis ()
+{
+	var Parentesiscont = 0 ;
+	for (let index = 0; index < CadenaAnalizada.length; index++) {
+		if (CadenaAnalizada[index] == '(') {
+			Parentesiscont += 1;
+		}   
+		if(CadenaAnalizada[index] == ')'){
+			Parentesiscont -= 1;
+		}
+
+	}
+	return Parentesiscont;
+}
+
+function AnalizarCadena(cadenaAnalizada)
+	{
+		PosicionCinta = 0;
+        //CadenaAnalizada = document.FormularioDatos.CadenaIngresada.value;
+        CadenaAnalizada = cadenaAnalizada;  
+		document.FormularioDatos.salida.value="";
+		PresentarMensaje("Verificando sintaxis para: "+CadenaAnalizada+"\n---------------------------------------------------------------");
+		TokenEntrada = ObtenerToken();
+		
+		//Numero();  // inicio de gramatica      
+		//Identificador();         
+		//Factor();
+		Expresion();
+
+/*
+		//Cuando termina si hubo error hace otras pasadas
+		while (DetectadoErrorSintaxis==1)
+			{
+				DetectadoErrorSintaxis = 0;  //
+				PosicionCinta+=2;
+				TokenEntrada = ObtenerToken();
+				Numero(); //para que arranque de nuevo
+			}
+		*/	
+	}
           </script>
     </body>
 </html>
