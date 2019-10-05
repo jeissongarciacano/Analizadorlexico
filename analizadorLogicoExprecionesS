@@ -13,6 +13,7 @@ var DetectadoErrorSintaxis = 0;
 var TokenEntrada = '';
 var CadenaAnalizada = '';
 
+
 function LlevarLog(mensaje)
 	 {
 		console.log("Para "+TokenEntrada+" "+mensaje);
@@ -29,17 +30,26 @@ function PresentarError(complemento)
 			{
 				if (TokenEntrada == ' '){
 					PresentarMensaje("ERROR en token:  (Espacio) " + " " +complemento);
-				} else{
+				} else if (Parentesis() != 0) {
+					PresentarMensaje(complemento)
+				} else {
 				PresentarMensaje("ERROR en token: "+TokenEntrada+" "+complemento);
 				}
 			}
 	 }
 function Expresion()
 	{
-
-		LlevarLog("Expresion");
+		if (Parentesis() == 0){
+			Termino();
+			ExpresionPrima();
+		}else if(Parentesis() < 0){
+			PresentarError (' Se encontraron ' + Math.abs(Parentesis())+ '   parentesis  más de  cierre' );
+		}else {
+			PresentarError(' Se encontraron ' + Math.abs(Parentesis())+ ' parentesis más de abertura');
+		}
+		/*LlevarLog("Expresion");
 		Termino();
-		ExpresionPrima();
+		ExpresionPrima();*/
 	}
 
 function ExpresionPrima()
@@ -61,7 +71,7 @@ function ExpresionPrima()
 								Termino();
 								ExpresionPrima();
 							}
-						else
+						else 
 							{
 								PresentarError("ERROR en token: " + TokenEntrada + " ");
 								//No hacer nada: Epsilon
@@ -72,6 +82,7 @@ function ExpresionPrima()
 
 function Termino()
 	{
+
 		LlevarLog("Termino");
 		Factor();
 		TerminoPrima();
@@ -136,6 +147,7 @@ function Digito()
 	{
 		if (!isNaN(TokenEntrada))
 			{
+				LlevarLog("Digito");
 				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
 				HacerMatch(TokenEntrada);
 			}
@@ -151,6 +163,7 @@ function NumeroPrima()
 	{
 		if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
 			{
+				LlevarLog("NumeroPrima");
 				Digito();
 				NumeroPrima();
 			}
@@ -167,6 +180,7 @@ function NumeroPrima()
 
 function Numero()
 	{
+		LlevarLog("Numero");
 		Digito();
 		NumeroPrima();
 	}
@@ -184,8 +198,10 @@ function Numero()
 
 	function Letra()
 	{
+		
 		if (EsLetra(TokenEntrada))
 			{
+				LlevarLog("Letra");
 				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
 				HacerMatch(TokenEntrada);
 			}
@@ -199,6 +215,7 @@ function Numero()
 	{
 		if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
 			{
+				LlevarLog("IdentificadorPrima");
 				Letra();
 				IdentificadorPrima();
 			}
@@ -216,6 +233,7 @@ function Numero()
 
 	function Identificador()
 	{
+		LlevarLog("Identificador");
 		Letra();
 		IdentificadorPrima();
 	}
@@ -260,9 +278,10 @@ function ObtenerToken()
 
 function Factor()
 {
+	LlevarLog("Factor");
 	if (typeof(TokenEntrada) !== 'undefined')
 	{
-		if(TokenEntrada == '('){
+		/*if(TokenEntrada == '('){
 			HacerMatch('(');
 
 			Factor();
@@ -270,7 +289,17 @@ function Factor()
 			if(TokenEntrada == ')'){
 				HacerMatch(')');
 			}
-		}
+		}*/
+	if(TokenEntrada == '('){
+		HacerMatch('(');
+		Factor();
+	}		
+
+	if(TokenEntrada == ')'){
+		HacerMatch(')');
+		Factor();
+	}
+		
 		 if (EsLetra(TokenEntrada))	{
 			Identificador();
 			FactorPrima();
@@ -298,15 +327,18 @@ function Factor()
 
 function FactorPrima ()
 {
+	LlevarLog("FactorPrima");
 	if(TokenEntrada == '('){
 			HacerMatch('(');
-
 			FactorPrima();
 
-			if(TokenEntrada == ')'){
-				HacerMatch(')');
-			}
-		}
+	}		
+
+	if(TokenEntrada == ')'){
+		HacerMatch(')');
+		FactorPrima();
+	}
+		
 	if (EsLetra(TokenEntrada))	{
 		Identificador();
 		FactorPrima();
@@ -332,7 +364,20 @@ function FactorPrima ()
 
 }
 
+function Parentesis ()
+{
+	var Parentesiscont = 0 ;
+	for (let index = 0; index < CadenaAnalizada.length; index++) {
+		if (CadenaAnalizada[index] == '(') {
+			Parentesiscont += 1;
+		} 
+		if(CadenaAnalizada[index] == ')'){
+			Parentesiscont -= 1;
+		}
 
+	}
+	return Parentesiscont;
+}
 
 function AnalizarCadena()
 	{
@@ -346,6 +391,7 @@ function AnalizarCadena()
 		//Identificador();         
 		//Factor();
 		Expresion();
+
 /*
 		//Cuando termina si hubo error hace otras pasadas
 		while (DetectadoErrorSintaxis==1)
