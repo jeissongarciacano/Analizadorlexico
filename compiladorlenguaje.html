@@ -579,9 +579,8 @@ function Parentesis ()
 function AnalizarCadena(cadenaAnalizada)
 	{
 		PosicionCinta = 0;
-        //CadenaAnalizada = document.FormularioDatos.CadenaIngresada.value;
-        CadenaAnalizada = cadenaAnalizada;  
-		document.FormularioDatos.salida.value="";
+        	CadenaAnalizada = cadenaAnalizada;  
+		//document.FormularioDatos.salida.value="";
 		PresentarMensaje("Verificando sintaxis para: "+CadenaAnalizada+"\n---------------------------------------------------------------");
 		TokenEntrada = ObtenerToken();
 		
