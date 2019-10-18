@@ -187,7 +187,7 @@ class analis {
         var PosicionCinta = 0;
         var DetectadoErrorSintaxis = 0;
         var TokenEntrada = '';
-        var a=true;
+        var a=false;
         var CadenaAnalizada = '';
         var array1 = [0,1,2,3,4,5,6,7,8,9,'/','*','-','+', '(', ')'];
         for (let i = 0; i < this.data.length; i++) {
@@ -195,14 +195,17 @@ class analis {
                 if(this.data[i].lexema==array1[index]){
                     CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
                 }
-                else{
-                  if(CadenaAnalizada!= '' ){
-                      AnalizarCadena(CadenaAnalizada);
-                      //CadenaAnalizada = '';
- 
-                 }   
-                }  
             }
+            if (CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
+                || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
+                ||this.data[i].lexema=='('||this.data[i].lexema==')')) {
+                 AnalizarCadena(CadenaAnalizada);
+                 CadenaAnalizada = '';
+                 }
+	if(CadenaAnalizada != ''){
+		AnalizarCadena(CadenaAnalizada);
+	        CadenaAnalizada = '';
+		}
         }
         this.imprimirdata(); 
     }
@@ -581,7 +584,7 @@ function AnalizarCadena(cadenaAnalizada)
 		PosicionCinta = 0;
         //CadenaAnalizada = document.FormularioDatos.CadenaIngresada.value;
         CadenaAnalizada = cadenaAnalizada;  
-		document.FormularioDatos.salida.value="";
+		//document.FormularioDatos.salida.value="";
 		PresentarMensaje("Verificando sintaxis para: "+CadenaAnalizada+"\n---------------------------------------------------------------");
 		TokenEntrada = ObtenerToken();
 		
