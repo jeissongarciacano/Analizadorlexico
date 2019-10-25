@@ -191,22 +191,27 @@ class analis {
         var CadenaAnalizada = '';
         var array1 = [0,1,2,3,4,5,6,7,8,9,'/','*','-','+', '(', ')'];
         for (let i = 0; i < this.data.length; i++) {
-            for (let index = 0; index < array1.length; index++) {
-                if(this.data[i].lexema==array1[index]){
-                    CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
+			if(EsLetra(this.data[i].lexema)){
+				CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
+			}
+			else{
+			    for (let index = 0; index < array1.length; index++) {
+                	if(this.data[i].lexema==array1[index]){
+                    	CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
                 }
-            }
+            }	
+			}
             if (CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
                 || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
-                ||this.data[i].lexema=='('||this.data[i].lexema==')')) {
+                ||this.data[i].lexema=='('||this.data[i].lexema==')' || EsLetra(this.data[i].lexema))) {
                  AnalizarCadena(CadenaAnalizada);
                  CadenaAnalizada = '';
                  }
-	if(CadenaAnalizada != ''){
-		AnalizarCadena(CadenaAnalizada);
-	        CadenaAnalizada = '';
-		}
         }
+		if(CadenaAnalizada != ''){
+			AnalizarCadena(CadenaAnalizada);
+            CadenaAnalizada = '';
+		}
         this.imprimirdata(); 
     }
     }
@@ -385,14 +390,15 @@ function Numero()
 		NumeroPrima();
 	}
 
-	function EsLetra(str)
+	function EsLetra(s)
 	{
-		/*if(caracter == "a")
-			return true;
-		else {
-			return false;
-		}*/
-		//return str.length === 1 && str.match(/[a-z]/i);
+		var str = String(s);
+        var x1= str.length === 1 && str.match(/[a-z]/i);
+        var x2=true;
+        if(x1 == false || x1== null){
+            x2=false;
+        }
+		return x2;
 
 	}
 
