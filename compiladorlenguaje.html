@@ -154,7 +154,7 @@ class analis {
         for (let i = 0; i < array34.length; i++) {
             if(array34[i]==' ' || array34[i]== '.'|| array34[i]== ';' || array34[i]== '+' || array34[i]== '-'|| array34[i]== '*'|| array34[i]== '/'
             || array34[i]== '<'|| array34[i]== '>'|| array34[i]== '='|| array34[i]== '('|| array34[i]== ')'|| array34[i]== '{'
-            || array34[i]== '}' ){
+            || array34[i]== '}' || array34[i]=='//' || array34[i]=='/*' || array34[i]=='*/'){
                 arrayaux.push(texto);
                 arrayaux.push(array34[i]);
                 texto='';
@@ -172,7 +172,7 @@ class analis {
         for (let index = 0; index < arrayaux.length; index++) {
             this.crear(arrayaux[index], auxreng,contaux, colaux);
             contaux = contaux+1;
-            if(arrayaux[index] == ';' || arrayaux[index] == '{' || arrayaux[index] == '}' ){
+            if(arrayaux[index] == ';' || arrayaux[index] == '{' || arrayaux[index] == '}' || arrayaux[index]== '//' || arrayaux[index]== '/*' || arrayaux[index]=='*/'){
                 auxreng= auxreng+1;
                 colaux = 1;
             } 
