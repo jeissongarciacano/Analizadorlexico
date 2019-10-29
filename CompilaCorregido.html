@@ -1,0 +1,356 @@
+
+<html>
+<body>
+<!--<form name=FormularioDatos><input type=text name=CadenaIngresada><input type=button value=Analizar onclick="AnalizarCadena();"></form> -->
+<form name=FormularioDatos>
+	<input type=text name=CadenaIngresada>
+	<input type=button value="Analizar >>>" onclick="AnalizarCadena();"> <input type=button value='Reiniciar' onclick='location.reload(true)'><br>
+	<textarea name=salida rows=25 cols=80></textarea>
+</form>
+<script language="JavaScript">
+var PosicionCinta = 0;
+var DetectadoErrorSintaxis = 0;
+var TokenEntrada = '';
+var CadenaAnalizada = '';
+var CadenaPreorden = new String();
+var CadenaPreorden = new String();
+var CadenaPosorden = new String();
+
+
+function LlevarLog(mensaje)
+	 {
+		console.log("Para "+TokenEntrada+" "+mensaje);
+	 }
+
+function PresentarMensaje(mensaje)
+	 {
+		document.FormularioDatos.salida.value+=mensaje+"\n";
+	 }
+
+function PresentarError(complemento)
+	 {
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				if (TokenEntrada == ' '){
+					PresentarMensaje("ERROR en token:  (Espacio) " + " " +complemento);
+				} else if (Parentesis() != 0) {
+					PresentarMensaje(complemento)
+				} else {
+				PresentarMensaje("ERROR en token: "+TokenEntrada+" "+complemento);
+				}
+			}
+	 }
+function Expresion()
+	{
+		
+		LlevarLog("Expresion");
+		if (Parentesis() == 0){
+			Termino();
+			ExpresionPrima();
+		}else if(Parentesis() < 0){
+			PresentarError (' Se encontraron ' + Math.abs(Parentesis())+ '   parentesis  más de  cierre o falta ' + Math.abs(Parentesis()) + ' parentesis de apertura'  );
+		}else {
+			PresentarError(' Se encontraron ' + Math.abs(Parentesis())+ ' parentesis más de abertura o falta ' + Math.abs(Parentesis()) + ' parentesis de cierre');
+		}
+		/*LlevarLog("Expresion");
+		Termino();
+		ExpresionPrima();*/
+	}
+
+function ExpresionPrima()
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				LlevarLog("ExpresionPrima");
+				if (TokenEntrada == '+')
+					{
+						HacerMatch('+');
+						Termino();
+						ExpresionPrima();
+					}
+				else
+					{
+						if (TokenEntrada == '-')
+							{
+								HacerMatch('-');
+								Termino();
+								ExpresionPrima();
+							}
+						else 
+							{
+								//PresentarError("ERROR en token: " + TokenEntrada + " ");
+								//No hacer nada: Epsilon
+							}
+					}
+			}	
+	}
+
+function Termino()
+	{
+
+		LlevarLog("Termino");
+		Factor();
+		TerminoPrima();
+	}
+
+function TerminoPrima()
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				LlevarLog("TerminoPrima");
+				if (TokenEntrada == '*')
+					{
+						HacerMatch('*');
+						Factor();
+						TerminoPrima();
+					}
+				else
+					{
+						if (TokenEntrada=='/')
+							{
+								HacerMatch('/');
+								Factor();
+								TerminoPrima();
+							}
+						else
+							{
+								//No hacer nada: Epsilon
+							}
+					}
+			}		
+	}
+
+
+
+function HacerMatch(t)
+	{
+		if (typeof(TokenEntrada) !== 'undefined')
+			{
+				if (t != TokenEntrada)
+					{
+						PresentarError("Se esperaba " +t);
+					}
+				else
+					{
+						TokenEntrada = ObtenerToken();
+					}
+			}
+	}
+
+function Digito()
+	{
+		if (!isNaN(TokenEntrada))
+			{
+				LlevarLog("Digito");
+				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
+				HacerMatch(TokenEntrada);
+			}
+		else
+			{
+				//PresentarError();
+			}
+	}
+
+	
+
+function NumeroPrima()
+	{
+		if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
+			{
+				LlevarLog("NumeroPrima");
+				Digito();
+				NumeroPrima();
+			}
+		else  // si no es un numero se hace nada(epsilon)
+			{
+				/*//No hacer nada: Epsilon
+				if (typeof(TokenEntrada) !== 'undefined')
+					{
+						document.write("<hr>ERROR token: "+TokenEntrada);
+						DetectadoErrorSintaxis=1;
+					}*/
+			}
+	}
+
+function Numero()
+	{
+		LlevarLog("Numero");
+		Digito();
+		NumeroPrima();
+	}
+
+	function EsLetra(str)
+	{
+		/*if(caracter == "a")
+			return true;
+		else {
+			return false;
+		}*/
+		return (str.length == 1) && str.match(/[a-z]/i);
+
+	}
+
+	function Letra()
+	{
+		
+		if (EsLetra(TokenEntrada))
+			{
+				LlevarLog("Letra");
+				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
+				HacerMatch(TokenEntrada);
+			}
+		else
+			{
+				//PresentarError();
+			}
+	}
+
+	function IdentificadorPrima()
+	{
+		if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
+			{
+				LlevarLog("IdentificadorPrima");
+				Letra();
+				IdentificadorPrima();
+			}
+		/*else  // si no es un numero se hace nada(epsilon)
+			{
+				//No hacer nada: Epsilon
+				if (typeof(TokenEntrada) !== 'undefined')
+					{
+						document.write("<hr>ERROR token: "+TokenEntrada);
+						DetectadoErrorSintaxis=1;
+					}
+			}
+			*/
+	}
+
+	function Identificador()
+	{
+		LlevarLog("Identificador");
+		Letra();
+		IdentificadorPrima();
+	}
+
+function ObtenerToken()
+	{
+		if (typeof(CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
+			PresentarMensaje("Analizando token: "+CadenaAnalizada[PosicionCinta - 1]);
+		
+		if (typeof(CadenaAnalizada[PosicionCinta - 1]) === '+' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '-' &&  typeof(CadenaAnalizada[PosicionCinta - 1]) === '*' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '/')
+		{
+			if(typeof(CadenaAnalizada[PosicionCinta - 1]) === typeof(CadenaAnalizada[PosicionCinta - 2]))
+			{
+				PresentarError(CadenaAnalizada[PosicionCinta - 1])
+			}
+		}
+
+		if (PosicionCinta > 0){
+			
+			if(PosicionCinta==CadenaAnalizada.length-1 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
+				PresentarError(CadenaAnalizada[PosicionCinta]);
+				return;
+			}
+			else if(CadenaAnalizada[PosicionCinta-1]== '/'|| CadenaAnalizada[PosicionCinta-1]== '*'|| CadenaAnalizada[PosicionCinta-1]== '+'|| CadenaAnalizada[PosicionCinta-1]== '-' ){
+					if(CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-'){
+						PresentarError(CadenaAnalizada[PosicionCinta]);
+						return;
+					}
+				}
+			else if(CadenaAnalizada[PosicionCinta-1]== ' '){
+				PresentarError(CadenaAnalizada[PosicionCinta - 1]);
+						return;
+			}
+		} else if(PosicionCinta==0 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-' || CadenaAnalizada[PosicionCinta]== ')')){
+			PresentarError(CadenaAnalizada[PosicionCinta]);
+			return;
+		}
+
+		PosicionCinta = PosicionCinta + 1   // se ubica en la posicion siguiente de la cinta
+		return (CadenaAnalizada[PosicionCinta - 1])  // se imprime la anterior
+	}
+
+function Factor()
+{
+	LlevarLog("Factor");
+	if (typeof(TokenEntrada) !== 'undefined')
+	{
+		
+	if(TokenEntrada == '('){
+		HacerMatch('(');
+		Expresion();
+		HacerMatch(')');
+	}
+	else{				
+		 if (EsLetra(TokenEntrada))	{
+			Identificador();
+
+		} else {
+			if (!isNaN(TokenEntrada)){
+				Numero();
+
+			}else {
+				//No hacer nada: Epsilon
+				/*if (typeof(TokenEntrada) !== 'undefined')
+						{
+							document.write("<hr>ERROR token: "+TokenEntrada);
+							DetectadoErrorSintaxis=1;
+
+						}
+
+*/
+			}
+			
+		}
+	}
+	}
+}
+
+
+
+function Parentesis ()
+{
+	var Parentesiscont = 0 ;
+	for (let index = 0; index < CadenaAnalizada.length; index++) {
+		if (CadenaAnalizada[index] == '(') {
+			Parentesiscont += 1;
+		} 
+		if(CadenaAnalizada[index] == ')'){
+			Parentesiscont -= 1;
+		}
+
+	}
+	return Parentesiscont;
+}
+
+function AnalizarCadena()
+	{
+		PosicionCinta = 0;
+		CadenaAnalizada = document.FormularioDatos.CadenaIngresada.value;
+		document.FormularioDatos.salida.value="";
+		PresentarMensaje("Verificando sintaxis para: "+CadenaAnalizada+"\n---------------------------------------------------------------");
+		TokenEntrada = ObtenerToken();
+		
+		//Numero();  // inicio de gramatica      
+		//Identificador();         
+		//Factor();
+		Expresion();
+
+/*
+		//Cuando termina si hubo error hace otras pasadas
+		while (DetectadoErrorSintaxis==1)
+			{
+				DetectadoErrorSintaxis = 0;  //
+				PosicionCinta+=2;
+				TokenEntrada = ObtenerToken();
+				Numero(); //para que arranque de nuevo
+			}
+		*/	
+	}
+
+</script>
+
+
+
+</body>
+</html>
