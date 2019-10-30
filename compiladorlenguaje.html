@@ -184,7 +184,10 @@ class analis {
     main(){
         this.lectorcad();
     //analizador sintaxis logica
-        var PosicionCinta = 0;
+		var PosicionCinta = 0;
+		var CadenaPreorden = new String();
+		var CadenaInorden = new String();
+		var CadenaPosorden = new String();
         var DetectadoErrorSintaxis = 0;
         var TokenEntrada = '';
         var a=false;
@@ -215,20 +218,15 @@ class analis {
         this.imprimirdata(); 
     }
     }
-    //var main = new analis();
-    //main.lectorcad('while ( ) for } } if = hola /* while hola john ; while x y z');
-    
     //analizador sintaxis logica
-            function LlevarLog(mensaje)
+	function LlevarLog(mensaje)
 	 {
 		console.log("Para "+TokenEntrada+" "+mensaje);
 	 }
-
 function PresentarMensaje(mensaje)
 	 {
 		document.FormularioDatos.salida.value+=mensaje+"\n";
 	 }
-
 function PresentarError(complemento)
 	 {
 		if (typeof(TokenEntrada) !== 'undefined')
@@ -244,19 +242,20 @@ function PresentarError(complemento)
 	 }
 function Expresion()
 	{
+		
+		LlevarLog("Expresion");
 		if (Parentesis() == 0){
 			Termino();
 			ExpresionPrima();
 		}else if(Parentesis() < 0){
-			PresentarError (' Se encontraron ' + Math.abs(Parentesis())+ '   parentesis  más de  cierre' );
+			PresentarError (' Se encontraron ' + Math.abs(Parentesis())+ '   parentesis  más de  cierre o falta ' + Math.abs(Parentesis()) + ' parentesis de apertura'  );
 		}else {
-			PresentarError(' Se encontraron ' + Math.abs(Parentesis())+ ' parentesis más de abertura');
+			PresentarError(' Se encontraron ' + Math.abs(Parentesis())+ ' parentesis más de abertura o falta ' + Math.abs(Parentesis()) + ' parentesis de cierre');
 		}
 		/*LlevarLog("Expresion");
 		Termino();
 		ExpresionPrima();*/
 	}
-
 function ExpresionPrima()
 	{
 		if (typeof(TokenEntrada) !== 'undefined')
@@ -278,21 +277,18 @@ function ExpresionPrima()
 							}
 						else 
 							{
-								PresentarError("ERROR en token: " + TokenEntrada + " ");
+								//PresentarError("ERROR en token: " + TokenEntrada + " ");
 								//No hacer nada: Epsilon
 							}
 					}
 			}	
 	}
-
 function Termino()
 	{
-
 		LlevarLog("Termino");
 		Factor();
 		TerminoPrima();
 	}
-
 function TerminoPrima()
 	{
 		if (typeof(TokenEntrada) !== 'undefined')
@@ -319,20 +315,6 @@ function TerminoPrima()
 					}
 			}		
 	}
-
-/*function Factor()
-	{
-		if (typeof(TokenEntrada) !== 'undefined')
-			{
-				LlevarLog("Factor");
-				if (!isNaN(TokenEntrada))
-					{
-						Numero();
-					}
-			}
-	}
-	*/
-
 function HacerMatch(t)
 	{
 		if (typeof(TokenEntrada) !== 'undefined')
@@ -347,7 +329,6 @@ function HacerMatch(t)
 					}
 			}
 	}
-
 function Digito()
 	{
 		if (!isNaN(TokenEntrada))
@@ -361,9 +342,7 @@ function Digito()
 				//PresentarError();
 			}
 	}
-
 	
-
 function NumeroPrima()
 	{
 		if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
@@ -372,36 +351,31 @@ function NumeroPrima()
 				Digito();
 				NumeroPrima();
 			}
-		/*else  // si no es un numero se hace nada(epsilon)
+		else  // si no es un numero se hace nada(epsilon)
 			{
-				//No hacer nada: Epsilon
+				/*//No hacer nada: Epsilon
 				if (typeof(TokenEntrada) !== 'undefined')
 					{
 						document.write("<hr>ERROR token: "+TokenEntrada);
 						DetectadoErrorSintaxis=1;
-					}
-			}*/
+					}*/
+			}
 	}
-
 function Numero()
 	{
 		LlevarLog("Numero");
 		Digito();
 		NumeroPrima();
 	}
-
-	function EsLetra(s)
+	function EsLetra(str)
 	{
-		var str = String(s);
-        var x1= str.length === 1 && str.match(/[a-z]/i);
-        var x2=true;
-        if(x1 == false || x1== null){
-            x2=false;
-        }
-		return x2;
-
+		/*if(caracter == "a")
+			return true;
+		else {
+			return false;
+		}*/
+		return (str.length == 1) && str.match(/[a-z]/i);
 	}
-
 	function Letra()
 	{
 		
@@ -416,7 +390,6 @@ function Numero()
 				//PresentarError();
 			}
 	}
-
 	function IdentificadorPrima()
 	{
 		if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
@@ -436,14 +409,12 @@ function Numero()
 			}
 			*/
 	}
-
 	function Identificador()
 	{
 		LlevarLog("Identificador");
 		Letra();
 		IdentificadorPrima();
 	}
-
 function ObtenerToken()
 	{
 		if (typeof(CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
@@ -456,7 +427,6 @@ function ObtenerToken()
 				PresentarError(CadenaAnalizada[PosicionCinta - 1])
 			}
 		}
-
 		if (PosicionCinta > 0){
 			
 			if(PosicionCinta==CadenaAnalizada.length-1 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
@@ -477,110 +447,50 @@ function ObtenerToken()
 			PresentarError(CadenaAnalizada[PosicionCinta]);
 			return;
 		}
-
 		PosicionCinta = PosicionCinta + 1   // se ubica en la posicion siguiente de la cinta
 		return (CadenaAnalizada[PosicionCinta - 1])  // se imprime la anterior
 	}
-
 function Factor()
 {
 	LlevarLog("Factor");
 	if (typeof(TokenEntrada) !== 'undefined')
 	{
-		/*if(TokenEntrada == '('){
-			HacerMatch('(');
-
-			Factor();
-
-			if(TokenEntrada == ')'){
-				HacerMatch(')');
-			}
-		}*/
+		
 	if(TokenEntrada == '('){
 		HacerMatch('(');
-		Factor();
-	}		
-
-	if(TokenEntrada == ')'){
+		Expresion();
 		HacerMatch(')');
-		Factor();
 	}
-		
+	else{				
 		 if (EsLetra(TokenEntrada))	{
 			Identificador();
-			FactorPrima();
-
 		} else {
 			if (!isNaN(TokenEntrada)){
 				Numero();
-				FactorPrima();
-
 			}else {
 				//No hacer nada: Epsilon
 				/*if (typeof(TokenEntrada) !== 'undefined')
 						{
 							document.write("<hr>ERROR token: "+TokenEntrada);
 							DetectadoErrorSintaxis=1;
-
 						}
-
 */
 			}
 			
 		}
 	}
-}
-
-function FactorPrima ()
-{
-	LlevarLog("FactorPrima");
-	if(TokenEntrada == '('){
-			HacerMatch('(');
-			FactorPrima();
-
-	}		
-
-	if(TokenEntrada == ')'){
-		HacerMatch(')');
-		FactorPrima();
 	}
-		
-	if (EsLetra(TokenEntrada))	{
-		Identificador();
-		FactorPrima();
-
-	} else {
-		if (!isNaN(TokenEntrada)){
-			Numero();
-			FactorPrima();
-
-		}else {
-			//No hacer nada: Epsilon
-		/*	if (typeof(TokenEntrada) !== 'undefined')
-					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
-
-					}
-
-*/
-		}
-		
-	}
-
 }
-
 function Parentesis ()
 {
 	var Parentesiscont = 0 ;
 	for (let index = 0; index < CadenaAnalizada.length; index++) {
 		if (CadenaAnalizada[index] == '(') {
 			Parentesiscont += 1;
-		}   
+		} 
 		if(CadenaAnalizada[index] == ')'){
 			Parentesiscont -= 1;
 		}
-
 	}
 	return Parentesiscont;
 }
