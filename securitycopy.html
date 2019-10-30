@@ -1,397 +1,357 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>JAVASCRIPT</title>
-    </head>
-    <body>
-        <form name=FormularioDatos> 
+<head>
+    <meta charset="utf-8">
+    <title>JAVASCRIPT</title>
+</head>
+<body>
+    <form name=FormularioDatos>
         <textarea name=comentarios rows="10" cols="40"></textarea>
         <input type=button value="Analizar >>>" onclick="reactivo();">
         <textarea name=salida rows=25 cols=80></textarea>
-        </form>
-        <script>
- // JavaScript source code
- function reactivo(){
-    var main = new analis();
- }
-class tab{
-    constructor(tipodato, lexema, token){
-        this.tipodato=tipodato;
-        this.lexema= lexema;
-        this.token=token;
-    }
-}
-class tipos {
-    // se ingresa tipo(String) cont(poscion en renglon) reng(renglon)
-    constructor(tipo, lex , cont , reng, col, tok) {
-        this.reng = reng;
-        this.tipo = tipo;
-        this.lexema = lex;
-        this.cont =cont;
-        this.columna= col;
-        this.token = tok;
-    }
-}
-class analis { 
-    // datos necesarion para comparacion 
-    // // , /* , */
-    ab1= ['comentario'];
-    a1= new tab(this.ab1,'//', 'comentariolinea' );
-    a2= new tab(this.ab1,'/*', 'iniciocomentario' );
-    a3= new tab(this.ab1,'*/', 'fincomentario' );
-    // 'while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
-    // 'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this', 'let', 'long'
-    ab2= ['palabraclave', 'ciclo'];
-    a4= new tab(this.ab2,'do', 'hacer' );
-    a5= new tab(this.ab2,'while', 'mientras' );
-    a6= new tab(this.ab2,'for', 'ciclofor' );
-    a7= new tab(this.ab2,'switch', 'switch' );
-    ab3= ['palabraclave', 'condicional'];
-    a8= new tab(this.ab3,'if', 'si' );
-    a9= new tab(this.ab3,'else', 'sino' );
-    ab4= ['palabraclave', 'tipo dato'];
-    a10= new tab(this.ab4,'var', 'var' );
-    a11= new tab('comentario','long', 'long' );
-    ab5 = ['palabraclave', 'identificador'];
-    a12= new tab(this.ab5,'try', 'tratar' );
-    a13= new tab(this.ab5,'return', 'retornar' );
-    a14= new tab(this.ab5 ,'class', 'clase' );
-    a15= new tab(this.ab5 ,'throw', 'throw' );
-    a16= new tab(this.ab5 ,'throws', 'throws' );
-    a17= new tab(this.ab5 ,'super', 'super' );
-    a18= new tab(this.ab5 ,'new', 'nuevo' );
-    a19= new tab(this.ab5 ,'import', 'importar' );
-    a20= new tab(this.ab5 ,'finally', 'final' );
-    a21= new tab(this.ab5 ,'this', 'this' );
-    a22= new tab(this.ab5  ,'let', 'let' );
-    a23= new tab(this.ab5,'funtion', 'funcion' );
-    a24= new tab(this.ab5 ,'false', 'falso' );
-    a25= new tab(this.ab5 ,'true', 'verdadero' );
-    // '=', '+', '-', '*', '/',  '<', '>' , '<=' , '>=' 
-    ab6=['operadorlogico', 'separador', 'identificador'];
-    a26= new tab(this.ab6,'=', 'igual' );
-    a27= new tab(this.ab6,'+', 'mas' );
-    a28= new tab(this.ab6,'-', 'resta' );
-    a29= new tab(this.ab6,'/', 'backslash' );
-    a30= new tab(this.ab6,'<', 'menorque' );
-    a31= new tab(this.ab6,'>', 'mayorque' );
-    a32= new tab(this.ab6,'>=', 'mayorigualque' );
-    a33= new tab(this.ab6,'<=', 'menorigualque' );
-    a35= new tab(this.ab6,'==', 'igualigual' );
-    //',' ,  ';' , ''' , ' '
-    ab7=['separador', 'identificador']
-    a36= new tab(this.ab7,',', 'coma' );
-    a37= new tab(this.ab7,';', 'cpuntocoma' );
-    // '(' , ')' , '{' , '}' 
-    ab8=['separador', 'identificador'];
-    a38= new tab(this.ab8,'(', 'parentIzq' );
-    a39= new tab(this.ab8,')', 'parentDer' );
-    a40= new tab(this.ab8,'{', 'corcheteIzq' );
-    a41= new tab(this.ab8,'}', 'corcheteDer');
-    a42= new tab(this.ab8,'.', 'punto');
-    a43= new tab(this.ab8,' ', 'espacio');
-    a44= new tab(this.ab8,'', 'espacio');
-   
-    lexemas = [this.a1,this.a2,this.a3,this.a4,this.a5,this.a6,this.a7,this.a8,this.a9, this.a10, this.a11,this.a12, this.a13, this.a14,this.a15, this.a16,this.a17,this.a18,this.a19,
-    this.a20,this.a21,this.a22,this.a23,this.a24,this.a26,this.a27,this.a28,this.a29,this.a30,this.a31,this.a32,this.a33,this.a35,this.a36,this.a37,this.a38,this.a39,
-    this.a40,this.a41,this.a42,this.a43, this.a44];
-    constructor(){
-        this.data= new Array();
-        this.main();
-    }   
-    //imprime el arreglo data en la pantalla 
-    imprimirdata() {
-          var ventana = window.open('', 'PRINT', 'height=400,width=600');
-        ventana.document.write("<table border= '3'>"); //crea la tabla
-        ventana.document.writeln("<td>" + 'Token #' + "</td>");
-        ventana.document.writeln("<td>" + 'token' + "</td>");
-        ventana.document.writeln("<td>" + 'lexema' + "</td>");
-        ventana.document.writeln("<td>" + 'tipo' + "</td>");
-        ventana.document.writeln("<td>" + 'renglon' + "</td>");
-        ventana.document.writeln("<td>" + 'columna' + "</td>");
-        var aux32= 1;
-        for (let index = 0; index < this.data.length; index++) {
-            ventana.document.write("<tr>");
-            ventana.document.writeln("<td>" + this.data[index].cont + "</td>");
-            ventana.document.writeln("<td>" + this.data[index].token + "</td>");
-            ventana.document.writeln("<td>" + "'" + this.data[index].lexema + "'"  + "</td>");
-            ventana.document.writeln("<td>" + this.data[index].tipo + "</td>");
-            ventana.document.writeln("<td>" + this.data[index].reng + "</td>");
-            ventana.document.writeln("<td>" + this.data[index].columna + "</td>");
-            ventana.document.write("</tr>");
-            aux32=aux32+1;
+    </form>
+    <script>
+        // JavaScript source code
+            // inorden  a+b*c-d
+        var CadenaPreorden = ''; // *+ab-cd
+        var CadenaPosorden = ''; // ab+cd-*
+        function reactivo() {
+            var main = new analis();
         }
-    }
-    // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
-    crear(palabra, rengaux, contaux, col){
-        var x=null;
-        var y= ['variable'];
-        for (let i = 0; i < this.lexemas.length; i++) {
-            if (this.lexemas[i].lexema == palabra) {
-                x= new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
-            }    
-        }
-        if(x==null){
-        for (let index = 0; index < this.data.length; index++) {
-            if(this.data[index].lexema ==palabra){
-                x= new tipos(this.data[index].tipo, palabra, this.data[index].cont, rengaux, col, palabra);  
+        class tab {
+            constructor(tipodato, lexema, token) {
+                this.tipodato = tipodato;
+                this.lexema = lexema;
+                this.token = token;
             }
         }
-            if(x==null){
-             x= new tipos('variable', palabra, contaux+40, rengaux, col, palabra);    
+        class tipos {
+            // se ingresa tipo(String) cont(poscion en renglon) reng(renglon)
+            constructor(tipo, lex, cont, reng, col, tok) {
+                this.reng = reng;
+                this.tipo = tipo;
+                this.lexema = lex;
+                this.cont = cont;
+                this.columna = col;
+                this.token = tok;
             }
         }
-        this.data.push(x);
-    }
-    // lee la cadena ingresada y ejecuta el resto del codigo
-    lectorcad(){
-        var cad = document.FormularioDatos.comentarios.value;
-        //var arrayaux = cad.split('');
-        var array34 = cad.split('');
-        var arrayaux= new Array();
-        var texto = '';
-        for (let i = 0; i < array34.length; i++) {
-            if(array34[i]==' ' || array34[i]== '.'|| array34[i]== ';' || array34[i]== '+' || array34[i]== '-'|| array34[i]== '*'|| array34[i]== '/'
-            || array34[i]== '<'|| array34[i]== '>'|| array34[i]== '='|| array34[i]== '('|| array34[i]== ')'|| array34[i]== '{'
-            || array34[i]== '}' ){
-                arrayaux.push(texto);
-                arrayaux.push(array34[i]);
-                texto='';
+        class analis {
+            // datos necesarion para comparacion
+            // // , /* , */
+            ab1 = ['comentario'];
+            a1 = new tab(this.ab1, '//', 'comentariolinea');
+            a2 = new tab(this.ab1, '/*', 'iniciocomentario');
+            a3 = new tab(this.ab1, '*/', 'fincomentario');
+            // 'while', 'for', 'switch', 'var', 'if', 'else', 'try', 'return', 'class', 'throws', 'throw', 'funtion',
+            // 'super', 'new', 'import', 'do', 'finally', 'false', 'true', 'this', 'let', 'long'
+            ab2 = ['palabraclave', 'ciclo'];
+            a4 = new tab(this.ab2, 'do', 'hacer');
+            a5 = new tab(this.ab2, 'while', 'mientras');
+            a6 = new tab(this.ab2, 'for', 'ciclofor');
+            a7 = new tab(this.ab2, 'switch', 'switch');
+            ab3 = ['palabraclave', 'condicional'];
+            a8 = new tab(this.ab3, 'if', 'si');
+            a9 = new tab(this.ab3, 'else', 'sino');
+            ab4 = ['palabraclave', 'tipo dato'];
+            a10 = new tab(this.ab4, 'var', 'var');
+            a11 = new tab('comentario', 'long', 'long');
+            ab5 = ['palabraclave', 'identificador'];
+            a12 = new tab(this.ab5, 'try', 'tratar');
+            a13 = new tab(this.ab5, 'return', 'retornar');
+            a14 = new tab(this.ab5, 'class', 'clase');
+            a15 = new tab(this.ab5, 'throw', 'throw');
+            a16 = new tab(this.ab5, 'throws', 'throws');
+            a17 = new tab(this.ab5, 'super', 'super');
+            a18 = new tab(this.ab5, 'new', 'nuevo');
+            a19 = new tab(this.ab5, 'import', 'importar');
+            a20 = new tab(this.ab5, 'finally', 'final');
+            a21 = new tab(this.ab5, 'this', 'this');
+            a22 = new tab(this.ab5, 'let', 'let');
+            a23 = new tab(this.ab5, 'funtion', 'funcion');
+            a24 = new tab(this.ab5, 'false', 'falso');
+            a25 = new tab(this.ab5, 'true', 'verdadero');
+            // '=', '+', '-', '*', '/',  '<', '>' , '<=' , '>='
+            ab6 = ['operadorlogico', 'separador', 'identificador'];
+            a26 = new tab(this.ab6, '=', 'igual');
+            a27 = new tab(this.ab6, '+', 'mas');
+            a28 = new tab(this.ab6, '-', 'resta');
+            a29 = new tab(this.ab6, '/', 'backslash');
+            a30 = new tab(this.ab6, '<', 'menorque');
+            a31 = new tab(this.ab6, '>', 'mayorque');
+            a32 = new tab(this.ab6, '>=', 'mayorigualque');
+            a33 = new tab(this.ab6, '<=', 'menorigualque');
+            a35 = new tab(this.ab6, '==', 'igualigual');
+            //',' ,  ';' , ''' , ' '
+            ab7 = ['separador', 'identificador']
+            a36 = new tab(this.ab7, ',', 'coma');
+            a37 = new tab(this.ab7, ';', 'cpuntocoma');
+            // '(' , ')' , '{' , '}'
+            ab8 = ['separador', 'identificador'];
+            a38 = new tab(this.ab8, '(', 'parentIzq');
+            a39 = new tab(this.ab8, ')', 'parentDer');
+            a40 = new tab(this.ab8, '{', 'corcheteIzq');
+            a41 = new tab(this.ab8, '}', 'corcheteDer');
+            a42 = new tab(this.ab8, '.', 'punto');
+            a43 = new tab(this.ab8, ' ', 'espacio');
+            a44 = new tab(this.ab8, '', 'espacio');
+
+            lexemas = [this.a1, this.a2, this.a3, this.a4, this.a5, this.a6, this.a7, this.a8, this.a9, this.a10, this.a11, this.a12, this.a13, this.a14, this.a15, this.a16, this.a17, this.a18, this.a19,
+            this.a20, this.a21, this.a22, this.a23, this.a24, this.a26, this.a27, this.a28, this.a29, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37, this.a38, this.a39,
+            this.a40, this.a41, this.a42, this.a43, this.a44];
+            constructor() {
+                this.data = new Array();
+                this.main();
             }
-            else{
-                texto= texto+array34[i];
-            }
-        }
-        if(texto!= ''){
-            arrayaux.push(texto);
-        }
-        var auxreng = 1;
-        var contaux = 1;
-        var colaux= 1;
-        for (let index = 0; index < arrayaux.length; index++) {
-            this.crear(arrayaux[index], auxreng,contaux, colaux);
-            contaux = contaux+1;
-            if(arrayaux[index] == ';' || arrayaux[index] == '{' || arrayaux[index] == '}' ){
-                auxreng= auxreng+1;
-                colaux = 1;
-            } 
-            else{
-                colaux = colaux+1;
-            }
-        }
-    }
-    main(){
-        this.lectorcad();
-    //analizador sintaxis logica
-        var PosicionCinta = 0;
-        var DetectadoErrorSintaxis = 0;
-        var TokenEntrada = '';
-        var a=false;
-        var CadenaAnalizada = '';
-        var array1 = [0,1,2,3,4,5,6,7,8,9,'/','*','-','+', '(', ')'];
-        for (let i = 0; i < this.data.length; i++) {
-			if(EsLetra(this.data[i].lexema)){
-				CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
-			}
-			else{
-			    for (let index = 0; index < array1.length; index++) {
-                	if(this.data[i].lexema==array1[index]){
-                    	CadenaAnalizada=CadenaAnalizada + this.data[i].lexema;
+            //imprime el arreglo data en la pantalla
+            imprimirdata() {
+                var ventana = window.open('', 'PRINT', 'height=400,width=600');
+                ventana.document.write("<table border= '3'>"); //crea la tabla
+                ventana.document.writeln("<td>" + 'Token #' + "</td>");
+                ventana.document.writeln("<td>" + 'token' + "</td>");
+                ventana.document.writeln("<td>" + 'lexema' + "</td>");
+                ventana.document.writeln("<td>" + 'tipo' + "</td>");
+                ventana.document.writeln("<td>" + 'renglon' + "</td>");
+                ventana.document.writeln("<td>" + 'columna' + "</td>");
+                var aux32 = 1;
+                for (let index = 0; index < this.data.length; index++) {
+                    ventana.document.write("<tr>");
+                    ventana.document.writeln("<td>" + this.data[index].cont + "</td>");
+                    ventana.document.writeln("<td>" + this.data[index].token + "</td>");
+                    ventana.document.writeln("<td>" + "'" + this.data[index].lexema + "'" + "</td>");
+                    ventana.document.writeln("<td>" + this.data[index].tipo + "</td>");
+                    ventana.document.writeln("<td>" + this.data[index].reng + "</td>");
+                    ventana.document.writeln("<td>" + this.data[index].columna + "</td>");
+                    ventana.document.write("</tr>");
+                    aux32 = aux32 + 1;
                 }
-            }	
-			}
-            if (CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
-                || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
-                ||this.data[i].lexema=='('||this.data[i].lexema==')' || EsLetra(this.data[i].lexema))) {
-                 AnalizarCadena(CadenaAnalizada);
-                 CadenaAnalizada = '';
-                 }
+            }
+            // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
+            crear(palabra, rengaux, contaux, col) {
+                var x = null;
+                var y = ['variable'];
+                for (let i = 0; i < this.lexemas.length; i++) {
+                    if (this.lexemas[i].lexema == palabra) {
+                        x = new tipos(this.lexemas[i].tipodato, palabra, i, rengaux, col, this.lexemas[i].token);
+                    }
+                }
+                if (x == null) {
+                    for (let index = 0; index < this.data.length; index++) {
+                        if (this.data[index].lexema == palabra) {
+                            x = new tipos(this.data[index].tipo, palabra, this.data[index].cont, rengaux, col, palabra);
+                        }
+                    }
+                    if (x == null) {
+                        x = new tipos('variable', palabra, contaux + 40, rengaux, col, palabra);
+                    }
+                }
+                this.data.push(x);
+            }
+            // lee la cadena ingresada y ejecuta el resto del codigo
+            lectorcad() {
+                var cad = document.FormularioDatos.comentarios.value;
+                //var arrayaux = cad.split('');
+                var array34 = cad.split('');
+                var arrayaux = new Array();
+                var texto = '';
+                for (let i = 0; i < array34.length; i++) {
+                    if (array34[i] == ' ' || array34[i] == '.' || array34[i] == ';' || array34[i] == '+' || array34[i] == '-' || array34[i] == '*' || array34[i] == '/'
+                        || array34[i] == '<' || array34[i] == '>' || array34[i] == '=' || array34[i] == '(' || array34[i] == ')' || array34[i] == '{'
+                        || array34[i] == '}' || array34[i] == '//' || array34[i] == '/*' || array34[i] == '*/') {
+                        arrayaux.push(texto);
+                        arrayaux.push(array34[i]);
+                        texto = '';
+                    }
+                    else {
+                        texto = texto + array34[i];
+                    }
+                }
+                if (texto != '') {
+                    arrayaux.push(texto);
+                }
+                var auxreng = 1;
+                var contaux = 1;
+                var colaux = 1;
+                for (let index = 0; index < arrayaux.length; index++) {
+                    this.crear(arrayaux[index], auxreng, contaux, colaux);
+                    contaux = contaux + 1;
+                    if (arrayaux[index] == ';' || arrayaux[index] == '{' || arrayaux[index] == '}' || arrayaux[index] == '//' || arrayaux[index] == '/*' || arrayaux[index] == '*/') {
+                        auxreng = auxreng + 1;
+                        colaux = 1;
+                    }
+                    else {
+                        colaux = colaux + 1;
+                    }
+                }
+            }
+            main() {
+                this.lectorcad();
+                //analizador sintaxis logica
+                var PosicionCinta = 0;
+                var DetectadoErrorSintaxis = 0;
+                var TokenEntrada = '';
+                var a = false;
+                var CadenaAnalizada = '';
+                var array1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '/', '*', '-', '+', '(', ')'];
+                for (let i = 0; i < this.data.length; i++) {
+                    if (EsLetra(this.data[i].lexema)) {
+                        CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
+                    }
+                    else {
+                        for (let index = 0; index < array1.length; index++) {
+                            if (this.data[i].lexema == array1[index]) {
+                                CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
+                            }
+                        }
+                    }
+                    if (CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
+                        || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
+                        || this.data[i].lexema == '(' || this.data[i].lexema == ')' || EsLetra(this.data[i].lexema))) {
+                        AnalizarCadena(CadenaAnalizada);
+                        CadenaAnalizada = '';
+                    }
+                }
+                if (CadenaAnalizada != '') {
+                    AnalizarCadena(CadenaAnalizada);
+                    CadenaAnalizada = '';
+                }
+                this.imprimirdata();
+            }
         }
-		if(CadenaAnalizada != ''){
-			AnalizarCadena(CadenaAnalizada);
-            CadenaAnalizada = '';
-		}
-        this.imprimirdata(); 
-    }
-    }
-    //var main = new analis();
-    //main.lectorcad('while ( ) for } } if = hola /* while hola john ; while x y z');
-    
-    //analizador sintaxis logica
-            function LlevarLog(mensaje)
-	 {
-		console.log("Para "+TokenEntrada+" "+mensaje);
-	 }
+        //analizador sintaxis logica
+        function LlevarLog(mensaje) {
+            console.log("Para " + TokenEntrada + " " + mensaje);
+        }
+        function PresentarMensaje(mensaje) {
+            document.FormularioDatos.salida.value += mensaje + "\n";
+        }
+        function PresentarError(complemento) {
+            if (typeof (TokenEntrada) !== 'undefined') {
+                if (TokenEntrada == ' ') {
+                    PresentarMensaje("ERROR en token:  (Espacio) " + " " + complemento);
+                } else if (Parentesis() != 0) {
+                    PresentarMensaje(complemento)
+                } else {
+                    PresentarMensaje("ERROR en token: " + TokenEntrada + " " + complemento);
+                }
+            }
+        }
+        function Expresion() {
 
-function PresentarMensaje(mensaje)
-	 {
-		document.FormularioDatos.salida.value+=mensaje+"\n";
-	 }
+            LlevarLog("Expresion");
+            if (Parentesis() == 0) {
+                Termino();
+                ExpresionPrima();
+            } else if (Parentesis() < 0) {
+                PresentarError(' Se encontraron ' + Math.abs(Parentesis()) + '   parentesis  más de  cierre o falta ' + Math.abs(Parentesis()) + ' parentesis de apertura');
+            } else {
+                PresentarError(' Se encontraron ' + Math.abs(Parentesis()) + ' parentesis más de abertura o falta ' + Math.abs(Parentesis()) + ' parentesis de cierre');
+            }
+            /*LlevarLog("Expresion");
+            Termino();
+            ExpresionPrima();*/
+        }
+        function ExpresionPrima() {
+            if (typeof (TokenEntrada) !== 'undefined') {
+                LlevarLog("ExpresionPrima");
+                if (TokenEntrada == '+') {
+                    CadenaPosorden = TokenEntrada + CadenaPosorden;
+                    CadenaPreorden = TokenEntrada + CadenaPreorden;
+                    HacerMatch('+');
+                    Termino();
+                    ExpresionPrima();
+                }
+                else {
+                    if (TokenEntrada == '-') {
+                        CadenaPosorden = TokenEntrada + CadenaPosorden;
+                        CadenaPreorden = TokenEntrada + CadenaPreorden;
+                        HacerMatch('-');
+                        Termino();
+                        ExpresionPrima();
+                    }
+                    else {
+                        //PresentarError("ERROR en token: " + TokenEntrada + " ");
+                        //No hacer nada: Epsilon
+                    }
+                }
+            }
+        }
+        function Termino() {
+            LlevarLog("Termino");
+            Factor();
+            TerminoPrima();
+        }
+        function TerminoPrima() {
+            if (typeof (TokenEntrada) !== 'undefined') {
+                LlevarLog("TerminoPrima");
+                if (TokenEntrada == '*') {
+                    CadenaPreorden = TokenEntrada + CadenaPreorden;
+                    CadenaPosorden = CadenaPosorden + TokenEntrada;
+                    HacerMatch('*');
+                    Factor();
+                    TerminoPrima();
+                    
+                }
+                else {
+                    if (TokenEntrada == '/') {
+                        CadenaPreorden = TokenEntrada + CadenaPreorden;
+                        CadenaPosorden = CadenaPosorden + TokenEntrada;
+                        HacerMatch('/');
+                        Factor();
+                        TerminoPrima();
+                    }
+                    else {
+                        //No hacer nada: Epsilon
+                    }
+                }
+            }
+        }
+        function HacerMatch(t) {
+            if (typeof (TokenEntrada) !== 'undefined') {
+                if (t != TokenEntrada) {
+                    PresentarError("Se esperaba " + t);
+                }
+                else {
+                    TokenEntrada = ObtenerToken();
+                }
+            }
+        }
+        function Digito() {
+            if (!isNaN(TokenEntrada)) {
+                CadenaPosorden = TokenEntrada + CadenaPosorden;
+                CadenaPreorden = CadenaPreorden + TokenEntrada ;
+                LlevarLog("Digito");
+                //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
+                HacerMatch(TokenEntrada);
+            }
+            else {
+                //PresentarError();
+            }
+        }
 
-function PresentarError(complemento)
-	 {
-		if (typeof(TokenEntrada) !== 'undefined')
-			{
-				if (TokenEntrada == ' '){
-					PresentarMensaje("ERROR en token:  (Espacio) " + " " +complemento);
-				} else if (Parentesis() != 0) {
-					PresentarMensaje(complemento)
-				} else {
-				PresentarMensaje("ERROR en token: "+TokenEntrada+" "+complemento);
-				}
-			}
-	 }
-function Expresion()
-	{
-		if (Parentesis() == 0){
-			Termino();
-			ExpresionPrima();
-		}else if(Parentesis() < 0){
-			PresentarError (' Se encontraron ' + Math.abs(Parentesis())+ '   parentesis  más de  cierre' );
-		}else {
-			PresentarError(' Se encontraron ' + Math.abs(Parentesis())+ ' parentesis más de abertura');
-		}
-		/*LlevarLog("Expresion");
-		Termino();
-		ExpresionPrima();*/
-	}
-
-function ExpresionPrima()
-	{
-		if (typeof(TokenEntrada) !== 'undefined')
-			{
-				LlevarLog("ExpresionPrima");
-				if (TokenEntrada == '+')
-					{
-						HacerMatch('+');
-						Termino();
-						ExpresionPrima();
-					}
-				else
-					{
-						if (TokenEntrada == '-')
-							{
-								HacerMatch('-');
-								Termino();
-								ExpresionPrima();
-							}
-						else 
-							{
-								PresentarError("ERROR en token: " + TokenEntrada + " ");
-								//No hacer nada: Epsilon
-							}
-					}
-			}	
-	}
-
-function Termino()
-	{
-
-		LlevarLog("Termino");
-		Factor();
-		TerminoPrima();
-	}
-
-function TerminoPrima()
-	{
-		if (typeof(TokenEntrada) !== 'undefined')
-			{
-				LlevarLog("TerminoPrima");
-				if (TokenEntrada == '*')
-					{
-						HacerMatch('*');
-						Factor();
-						TerminoPrima();
-					}
-				else
-					{
-						if (TokenEntrada=='/')
-							{
-								HacerMatch('/');
-								Factor();
-								TerminoPrima();
-							}
-						else
-							{
-								//No hacer nada: Epsilon
-							}
-					}
-			}		
-	}
-
-/*function Factor()
-	{
-		if (typeof(TokenEntrada) !== 'undefined')
-			{
-				LlevarLog("Factor");
-				if (!isNaN(TokenEntrada))
-					{
-						Numero();
-					}
-			}
-	}
-	*/
-
-function HacerMatch(t)
-	{
-		if (typeof(TokenEntrada) !== 'undefined')
-			{
-				if (t != TokenEntrada)
-					{
-						PresentarError("Se esperaba " +t);
-					}
-				else
-					{
-						TokenEntrada = ObtenerToken();
-					}
-			}
-	}
-
-function Digito()
-	{
-		if (!isNaN(TokenEntrada))
-			{
-				LlevarLog("Digito");
-				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
-				HacerMatch(TokenEntrada);
-			}
-		else
-			{
-				//PresentarError();
-			}
-	}
-
-	
-
-function NumeroPrima()
-	{
-		if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
-			{
-				LlevarLog("NumeroPrima");
-				Digito();
-				NumeroPrima();
-			}
-		/*else  // si no es un numero se hace nada(epsilon)
-			{
-				//No hacer nada: Epsilon
-				if (typeof(TokenEntrada) !== 'undefined')
-					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
-					}
-			}*/
-	}
-
-function Numero()
-	{
-		LlevarLog("Numero");
-		Digito();
-		NumeroPrima();
-	}
-
-	function EsLetra(s)
-	{
+        function NumeroPrima() {
+            if (!isNaN(TokenEntrada)) // si es un numero se llama a digito y a numero prima
+            {
+                LlevarLog("NumeroPrima");
+                Digito();
+                NumeroPrima();
+            }
+            else  // si no es un numero se hace nada(epsilon)
+            {
+                /*//No hacer nada: Epsilon
+                if (typeof(TokenEntrada) !== 'undefined')
+                    {
+                        document.write("<hr>ERROR token: "+TokenEntrada);
+                        DetectadoErrorSintaxis=1;
+                    }*/
+            }
+        }
+        function Numero() {
+            LlevarLog("Numero");
+            Digito();
+            NumeroPrima();
+        }
+        function EsLetra(s) {
 		var str = String(s);
         var x1= str.length === 1 && str.match(/[a-z]/i);
         var x2=true;
@@ -399,217 +359,133 @@ function Numero()
             x2=false;
         }
 		return x2;
+        }
+        function Letra() {
 
-	}
+            if (EsLetra(TokenEntrada)) {
+                CadenaPosorden = TokenEntrada + CadenaPosorden;
+                CadenaPreorden = CadenaPreorden + TokenEntrada ;
+                LlevarLog("Letra");
+                //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
+                HacerMatch(TokenEntrada);
+            }
+            else {
+                //PresentarError();
+            }
+        }
+        function IdentificadorPrima() {
+            if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima
+            {
+                LlevarLog("IdentificadorPrima");
+                Letra();
+                IdentificadorPrima();
+            }
+            /*else  // si no es un numero se hace nada(epsilon)
+                {
+                    //No hacer nada: Epsilon
+                    if (typeof(TokenEntrada) !== 'undefined')
+                        {
+                            document.write("<hr>ERROR token: "+TokenEntrada);
+                            DetectadoErrorSintaxis=1;
+                        }
+                }
+                */
+        }
+        function Identificador() {
+            LlevarLog("Identificador");
+            Letra();
+            IdentificadorPrima();
+        }
+        function ObtenerToken() {
+            if (typeof (CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
+                PresentarMensaje("Analizando token: " + CadenaAnalizada[PosicionCinta - 1]);
 
-	function Letra()
-	{
-		
-		if (EsLetra(TokenEntrada))
-			{
-				LlevarLog("Letra");
-				//document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
-				HacerMatch(TokenEntrada);
-			}
-		else
-			{
-				//PresentarError();
-			}
-	}
+            if (typeof (CadenaAnalizada[PosicionCinta - 1]) === '+' && typeof (CadenaAnalizada[PosicionCinta - 1]) === '-' && typeof (CadenaAnalizada[PosicionCinta - 1]) === '*' && typeof (CadenaAnalizada[PosicionCinta - 1]) === '/') {
+                if (typeof (CadenaAnalizada[PosicionCinta - 1]) === typeof (CadenaAnalizada[PosicionCinta - 2])) {
+                    PresentarError(CadenaAnalizada[PosicionCinta - 1])
+                }
+            }
+            if (PosicionCinta > 0) {
 
-	function IdentificadorPrima()
-	{
-		if (EsLetra(TokenEntrada)) // si es un numero se llama a digito y a numero prima 
-			{
-				LlevarLog("IdentificadorPrima");
-				Letra();
-				IdentificadorPrima();
-			}
-		/*else  // si no es un numero se hace nada(epsilon)
-			{
-				//No hacer nada: Epsilon
-				if (typeof(TokenEntrada) !== 'undefined')
-					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
-					}
-			}
-			*/
-	}
+                if (PosicionCinta == CadenaAnalizada.length - 1 && (CadenaAnalizada[PosicionCinta] == '/' || CadenaAnalizada[PosicionCinta] == '*' || CadenaAnalizada[PosicionCinta] == '+' || CadenaAnalizada[PosicionCinta] == '-')) {
+                    PresentarError(CadenaAnalizada[PosicionCinta]);
+                    return;
+                }
+                else if (CadenaAnalizada[PosicionCinta - 1] == '/' || CadenaAnalizada[PosicionCinta - 1] == '*' || CadenaAnalizada[PosicionCinta - 1] == '+' || CadenaAnalizada[PosicionCinta - 1] == '-') {
+                    if (CadenaAnalizada[PosicionCinta] == '/' || CadenaAnalizada[PosicionCinta] == '*' || CadenaAnalizada[PosicionCinta] == '+' || CadenaAnalizada[PosicionCinta] == '-') {
+                        PresentarError(CadenaAnalizada[PosicionCinta]);
+                        return;
+                    }
+                }
+                else if (CadenaAnalizada[PosicionCinta - 1] == ' ') {
+                    PresentarError(CadenaAnalizada[PosicionCinta - 1]);
+                    return;
+                }
+            } else if (PosicionCinta == 0 && (CadenaAnalizada[PosicionCinta] == '/' || CadenaAnalizada[PosicionCinta] == '*' || CadenaAnalizada[PosicionCinta] == '+' || CadenaAnalizada[PosicionCinta] == '-' || CadenaAnalizada[PosicionCinta] == ')')) {
+                PresentarError(CadenaAnalizada[PosicionCinta]);
+                return;
+            }
+            PosicionCinta = PosicionCinta + 1   // se ubica en la posicion siguiente de la cinta
+            return (CadenaAnalizada[PosicionCinta - 1])  // se imprime la anterior
+        }
+        function Factor() {
+            LlevarLog("Factor");
+            if (typeof (TokenEntrada) !== 'undefined') {
 
-	function Identificador()
-	{
-		LlevarLog("Identificador");
-		Letra();
-		IdentificadorPrima();
-	}
+                if (TokenEntrada == '(') {
+                    HacerMatch('(');
+                    Expresion();
+                    HacerMatch(')');
+                }
+                else {
+                    if (EsLetra(TokenEntrada)) {
+                        Identificador();
+                    } else {
+                        if (!isNaN(TokenEntrada)) {
+                            Numero();
+                        } else {
+                            //No hacer nada: Epsilon
+                            /*if (typeof(TokenEntrada) !== 'undefined')
+                                    {
+                                        document.write("<hr>ERROR token: "+TokenEntrada);
+                                        DetectadoErrorSintaxis=1;
+                                    }
+            */
+                        }
 
-function ObtenerToken()
-	{
-		if (typeof(CadenaAnalizada[PosicionCinta - 1]) !== 'undefined')
-			PresentarMensaje("Analizando token: "+CadenaAnalizada[PosicionCinta - 1]);
-		
-		if (typeof(CadenaAnalizada[PosicionCinta - 1]) === '+' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '-' &&  typeof(CadenaAnalizada[PosicionCinta - 1]) === '*' && typeof(CadenaAnalizada[PosicionCinta - 1]) === '/')
-		{
-			if(typeof(CadenaAnalizada[PosicionCinta - 1]) === typeof(CadenaAnalizada[PosicionCinta - 2]))
-			{
-				PresentarError(CadenaAnalizada[PosicionCinta - 1])
-			}
-		}
+                    }
+                }
+            }
+        }
+        function Parentesis() {
+            var Parentesiscont = 0;
+            for (let index = 0; index < CadenaAnalizada.length; index++) {
+                if (CadenaAnalizada[index] == '(') {
+                    Parentesiscont += 1;
+                }
+                if (CadenaAnalizada[index] == ')') {
+                    Parentesiscont -= 1;
+                }
+            }
+            return Parentesiscont;
+        }
 
-		if (PosicionCinta > 0){
-			
-			if(PosicionCinta==CadenaAnalizada.length-1 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-')){
-				PresentarError(CadenaAnalizada[PosicionCinta]);
-				return;
-			}
-			else if(CadenaAnalizada[PosicionCinta-1]== '/'|| CadenaAnalizada[PosicionCinta-1]== '*'|| CadenaAnalizada[PosicionCinta-1]== '+'|| CadenaAnalizada[PosicionCinta-1]== '-' ){
-					if(CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-'){
-						PresentarError(CadenaAnalizada[PosicionCinta]);
-						return;
-					}
-				}
-			else if(CadenaAnalizada[PosicionCinta-1]== ' '){
-				PresentarError(CadenaAnalizada[PosicionCinta - 1]);
-						return;
-			}
-		} else if(PosicionCinta==0 && (CadenaAnalizada[PosicionCinta]== '/'|| CadenaAnalizada[PosicionCinta]== '*'|| CadenaAnalizada[PosicionCinta]== '+'|| CadenaAnalizada[PosicionCinta]== '-' || CadenaAnalizada[PosicionCinta]== ')')){
-			PresentarError(CadenaAnalizada[PosicionCinta]);
-			return;
-		}
+        function AnalizarCadena(cadenaAnalizada) {
 
-		PosicionCinta = PosicionCinta + 1   // se ubica en la posicion siguiente de la cinta
-		return (CadenaAnalizada[PosicionCinta - 1])  // se imprime la anterior
-	}
+            PosicionCinta = 0;
+            CadenaAnalizada = cadenaAnalizada;
+            PresentarMensaje("Verificando sintaxis para: " + CadenaAnalizada + "\n---------------------------------------------------------------");
+            TokenEntrada = ObtenerToken();
 
-function Factor()
-{
-	LlevarLog("Factor");
-	if (typeof(TokenEntrada) !== 'undefined')
-	{
-		/*if(TokenEntrada == '('){
-			HacerMatch('(');
-
-			Factor();
-
-			if(TokenEntrada == ')'){
-				HacerMatch(')');
-			}
-		}*/
-	if(TokenEntrada == '('){
-		HacerMatch('(');
-		Factor();
-	}		
-
-	if(TokenEntrada == ')'){
-		HacerMatch(')');
-		Factor();
-	}
-		
-		 if (EsLetra(TokenEntrada))	{
-			Identificador();
-			FactorPrima();
-
-		} else {
-			if (!isNaN(TokenEntrada)){
-				Numero();
-				FactorPrima();
-
-			}else {
-				//No hacer nada: Epsilon
-				/*if (typeof(TokenEntrada) !== 'undefined')
-						{
-							document.write("<hr>ERROR token: "+TokenEntrada);
-							DetectadoErrorSintaxis=1;
-
-						}
-
-*/
-			}
-			
-		}
-	}
-}
-
-function FactorPrima ()
-{
-	LlevarLog("FactorPrima");
-	if(TokenEntrada == '('){
-			HacerMatch('(');
-			FactorPrima();
-
-	}		
-
-	if(TokenEntrada == ')'){
-		HacerMatch(')');
-		FactorPrima();
-	}
-		
-	if (EsLetra(TokenEntrada))	{
-		Identificador();
-		FactorPrima();
-
-	} else {
-		if (!isNaN(TokenEntrada)){
-			Numero();
-			FactorPrima();
-
-		}else {
-			//No hacer nada: Epsilon
-		/*	if (typeof(TokenEntrada) !== 'undefined')
-					{
-						document.write("<hr>ERROR token: "+TokenEntrada);
-						DetectadoErrorSintaxis=1;
-
-					}
-
-*/
-		}
-		
-	}
-
-}
-
-function Parentesis ()
-{
-	var Parentesiscont = 0 ;
-	for (let index = 0; index < CadenaAnalizada.length; index++) {
-		if (CadenaAnalizada[index] == '(') {
-			Parentesiscont += 1;
-		}   
-		if(CadenaAnalizada[index] == ')'){
-			Parentesiscont -= 1;
-		}
-
-	}
-	return Parentesiscont;
-}
-
-function AnalizarCadena(cadenaAnalizada)
-	{
-		PosicionCinta = 0;
-        //CadenaAnalizada = document.FormularioDatos.CadenaIngresada.value;
-        CadenaAnalizada = cadenaAnalizada;  
-		//document.FormularioDatos.salida.value="";
-		PresentarMensaje("Verificando sintaxis para: "+CadenaAnalizada+"\n---------------------------------------------------------------");
-		TokenEntrada = ObtenerToken();
-		
-		//Numero();  // inicio de gramatica      
-		//Identificador();         
-		//Factor();
-		Expresion();
-
-/*
-		//Cuando termina si hubo error hace otras pasadas
-		while (DetectadoErrorSintaxis==1)
-			{
-				DetectadoErrorSintaxis = 0;  //
-				PosicionCinta+=2;
-				TokenEntrada = ObtenerToken();
-				Numero(); //para que arranque de nuevo
-			}
-		*/	
-	}
-          </script>
-    </body>
+            //Numero();  // inicio de gramatica
+            //Identificador();
+            //Factor();
+            Expresion();
+            PresentarMensaje("Preorden expresion: " + CadenaPreorden);
+            PresentarMensaje("Posorden expresion: " + CadenaPosorden);
+            CadenaPosorden = '';
+            CadenaPreorden = ''; 
+        }
+    </script>
+</body>
 </html>
