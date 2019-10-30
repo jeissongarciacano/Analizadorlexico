@@ -12,7 +12,9 @@
     </form>
     <script>
         // JavaScript source code
-
+            // inorden  a+b*c-d
+        var CadenaPreorden = ''; // *+ab-cd
+        var CadenaPosorden = ''; // ab+cd-*
         function reactivo() {
             var main = new analis();
         }
@@ -253,12 +255,16 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("ExpresionPrima");
                 if (TokenEntrada == '+') {
+                    CadenaPosorden = TokenEntrada + CadenaPosorden;
+                    CadenaPreorden = TokenEntrada + CadenaPreorden;
                     HacerMatch('+');
                     Termino();
                     ExpresionPrima();
                 }
                 else {
                     if (TokenEntrada == '-') {
+                        CadenaPosorden = TokenEntrada + CadenaPosorden;
+                        CadenaPreorden = TokenEntrada + CadenaPreorden;
                         HacerMatch('-');
                         Termino();
                         ExpresionPrima();
@@ -279,12 +285,17 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("TerminoPrima");
                 if (TokenEntrada == '*') {
+                    CadenaPreorden = TokenEntrada + CadenaPreorden;
+                    CadenaPosorden = CadenaPosorden + TokenEntrada;
                     HacerMatch('*');
                     Factor();
                     TerminoPrima();
+                    
                 }
                 else {
                     if (TokenEntrada == '/') {
+                        CadenaPreorden = TokenEntrada + CadenaPreorden;
+                        CadenaPosorden = CadenaPosorden + TokenEntrada;
                         HacerMatch('/');
                         Factor();
                         TerminoPrima();
@@ -307,6 +318,8 @@
         }
         function Digito() {
             if (!isNaN(TokenEntrada)) {
+                CadenaPosorden = TokenEntrada + CadenaPosorden;
+                CadenaPreorden = CadenaPreorden + TokenEntrada ;
                 LlevarLog("Digito");
                 //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
                 HacerMatch(TokenEntrada);
@@ -350,6 +363,8 @@
         function Letra() {
 
             if (EsLetra(TokenEntrada)) {
+                CadenaPosorden = TokenEntrada + CadenaPosorden;
+                CadenaPreorden = CadenaPreorden + TokenEntrada ;
                 LlevarLog("Letra");
                 //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
                 HacerMatch(TokenEntrada);
@@ -456,13 +471,9 @@
         }
 
         function AnalizarCadena(cadenaAnalizada) {
-            // inorden  a+b*c-d
-            var CadenaPreorden = ''; // *+ab-cd
-            var CadenaPosorden = ''; // ab+cd-*
+
             PosicionCinta = 0;
-            //CadenaAnalizada = document.FormularioDatos.CadenaIngresada.value;
             CadenaAnalizada = cadenaAnalizada;
-            //document.FormularioDatos.salida.value="";
             PresentarMensaje("Verificando sintaxis para: " + CadenaAnalizada + "\n---------------------------------------------------------------");
             TokenEntrada = ObtenerToken();
 
@@ -470,19 +481,10 @@
             //Identificador();
             //Factor();
             Expresion();
-
-            /*
-                    //Cuando termina si hubo error hace otras pasadas
-                    while (DetectadoErrorSintaxis==1)
-                        {
-                            DetectadoErrorSintaxis = 0;  //
-                            PosicionCinta+=2;
-                            TokenEntrada = ObtenerToken();
-                            Numero(); //para que arranque de nuevo
-                        }
-                    */
             PresentarMensaje("Preorden expresion: " + CadenaPreorden);
             PresentarMensaje("Posorden expresion: " + CadenaPosorden);
+            CadenaPosorden = '';
+            CadenaPreorden = ''; 
         }
     </script>
 </body>
