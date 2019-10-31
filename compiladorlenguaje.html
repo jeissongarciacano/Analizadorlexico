@@ -255,7 +255,7 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("ExpresionPrima");
                 if (TokenEntrada == '+') {
-                    CadenaPosorden = TokenEntrada + CadenaPosorden;
+                    CadenaPosorden =  CadenaPosorden+ TokenEntrada;
                     CadenaPreorden = TokenEntrada + CadenaPreorden;
                     HacerMatch('+');
                     Termino();
@@ -263,7 +263,7 @@
                 }
                 else {
                     if (TokenEntrada == '-') {
-                        CadenaPosorden = TokenEntrada + CadenaPosorden;
+                        CadenaPosorden =  CadenaPosorden+TokenEntrada;
                         CadenaPreorden = TokenEntrada + CadenaPreorden;
                         HacerMatch('-');
                         Termino();
