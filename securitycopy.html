@@ -7,14 +7,16 @@
 <body>
     <form name=FormularioDatos>
         <textarea name=comentarios rows="10" cols="40"></textarea>
-        <input type=button value="Analizar >>>" onclick="reactivo();">
+        <input type=button value="Analizar >>>" onclick="reactivo();"><input type=button value='Reiniciar' onclick='location.reload(true)'><br>
         <textarea name=salida rows=25 cols=80></textarea>
     </form>
     <script>
         // JavaScript source code
-        var CadenaInorden = '' ;// inorden  a+b*c-d
-        var CadenaPreorden = ''; // *+ab-cd
+            // inorden  a+b*c-d
+        var CadenaPreorden = new Array(); // *+ab-cd
+	    var CadenaInorden = ''; //  a+b*c-d
         var CadenaPosorden = ''; // ab+cd-*
+        var CadenaPreordenAux = '';
         function reactivo() {
             var main = new analis();
         }
@@ -99,6 +101,9 @@
             lexemas = [this.a1, this.a2, this.a3, this.a4, this.a5, this.a6, this.a7, this.a8, this.a9, this.a10, this.a11, this.a12, this.a13, this.a14, this.a15, this.a16, this.a17, this.a18, this.a19,
             this.a20, this.a21, this.a22, this.a23, this.a24, this.a26, this.a27, this.a28, this.a29, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37, this.a38, this.a39,
             this.a40, this.a41, this.a42, this.a43, this.a44];
+            idk = [this.a1, this.a2, this.a3, this.a4, this.a5, this.a6, this.a7, this.a8, this.a9, this.a10, this.a11, this.a12, this.a13, this.a14, this.a15, this.a16, this.a17, this.a18, this.a19,
+            this.a20, this.a21, this.a22, this.a23, this.a24,this.a25, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37,
+            this.a40, this.a41, this.a42, this.a43, this.a44];
             constructor() {
                 this.data = new Array();
                 this.main();
@@ -126,6 +131,15 @@
                     aux32 = aux32 + 1;
                 }
             }
+            check(p){
+                var retorno = true;
+                for (let i = 0; i < this.idk.length; i++) {
+                    if(this.idk[i].lexema==p){
+                        retorno= false;
+                    }
+                }
+                return retorno;
+            }
             // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
             crear(palabra, rengaux, contaux, col) {
                 var x = null;
@@ -142,7 +156,7 @@
                         }
                     }
                     if (x == null) {
-                        x = new tipos('variable', palabra, contaux + 40, rengaux, col, palabra);
+                        x = new tipos('variable,identificaor', palabra, contaux + 40, rengaux, col, palabra);
                     }
                 }
                 this.data.push(x);
@@ -192,9 +206,9 @@
                 var TokenEntrada = '';
                 var a = false;
                 var CadenaAnalizada = '';
-                var array1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '/', '*', '-', '+', '(', ')'];
+                var array1 = [ '/', '*', '-', '+', '(', ')'];
                 for (let i = 0; i < this.data.length; i++) {
-                    if (EsLetra(this.data[i].lexema)) {
+                    if (EsLetra(this.data[i].lexema) || this.check(this.data[i].lexema)) {
                         CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
                     } else if (!isNaN(this.data[i].lexema)) {
                         CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
@@ -206,9 +220,8 @@
                             }
                         }
                     }
-                    if (isNaN(this.data[i].lexema) && CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
-                        || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
-                        || this.data[i].lexema == '(' || this.data[i].lexema == ')' || EsLetra(this.data[i].lexema))) {
+                    if (isNaN(this.data[i].lexema) && CadenaAnalizada != '' && !(this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
+                        || this.data[i].lexema == '(' || this.data[i].lexema == ')' || EsLetra(this.data[i].lexema) || this.check(this.data[i].lexema))) {
                         AnalizarCadena(CadenaAnalizada);
                         CadenaAnalizada = '';
                     }
@@ -257,19 +270,26 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("ExpresionPrima");
                 if (TokenEntrada == '+') {
-                    CadenaPosorden = TokenEntrada + CadenaPosorden;
-                    CadenaPreorden = TokenEntrada + CadenaPreorden;
-                    HacerMatch('+');
-                    Termino();
-                    ExpresionPrima();
+                    CadenaPreorden =  '+'+ CadenaPreorden  + CadenaPreordenAux;
+		    CadenaPreordenAux = '';
+		    CadenaInorden = CadenaInorden + '+';	
+                        
+		    HacerMatch('+');
+		    Termino();
+		    CadenaPosorden = CadenaPosorden + '+';	
+		    ExpresionPrima();
                 }
                 else {
                     if (TokenEntrada == '-') {
-                        CadenaPosorden = TokenEntrada + CadenaPosorden;
-                        CadenaPreorden = TokenEntrada + CadenaPreorden;
-                        HacerMatch('-');
-                        Termino();
-                        ExpresionPrima();
+                       CadenaPreorden =  '-'+ CadenaPreorden  + CadenaPreordenAux;
+		       CadenaPreordenAux = '';
+		       CadenaInorden = CadenaInorden + '-';
+							
+			HacerMatch('-');
+			Termino();
+								
+			CadenaPosorden = CadenaPosorden + '-';
+			ExpresionPrima();
                     }
                     else {
                         //PresentarError("ERROR en token: " + TokenEntrada + " ");
@@ -287,20 +307,25 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("TerminoPrima");
                 if (TokenEntrada == '*') {
-                    CadenaPreorden = TokenEntrada + CadenaPreorden;
-                    CadenaPosorden = CadenaPosorden + TokenEntrada;
-                    HacerMatch('*');
-                    Factor();
-                    TerminoPrima();
+			CadenaPreorden =  '*' + CadenaPreorden  + CadenaPreordenAux;
+			CadenaPreordenAux = '';
+			CadenaInorden = CadenaInorden +'*';
+                       
+			HacerMatch('*');
+			Factor();
+			CadenaPosorden = CadenaPosorden + '*';
+			TerminoPrima();
                     
                 }
                 else {
                     if (TokenEntrada == '/') {
-                        CadenaPreorden = TokenEntrada + CadenaPreorden;
-                        CadenaPosorden = CadenaPosorden + TokenEntrada;
-                        HacerMatch('/');
-                        Factor();
-                        TerminoPrima();
+                        CadenaPreorden =  '-' + CadenaPreorden  + CadenaPreordenAux;
+			CadenaInorden = CadenaInorden + '/';
+								
+			HacerMatch('/');
+			Factor();
+			CadenaPosorden = CadenaPosorden + '/';
+			TerminoPrima();
                     }
                     else {
                         //No hacer nada: Epsilon
@@ -314,14 +339,17 @@
                     PresentarError("Se esperaba " + t);
                 }
                 else {
+			if (!isNaN(TokenEntrada) || EsLetra(TokenEntrada)){
+				CadenaPreordenAux += TokenEntrada;
+				CadenaInorden += TokenEntrada; 
+				CadenaPosorden += TokenEntrada;
+		}
                     TokenEntrada = ObtenerToken();
                 }
             }
         }
         function Digito() {
             if (!isNaN(TokenEntrada)) {
-                CadenaPosorden = TokenEntrada + CadenaPosorden;
-                CadenaPreorden = CadenaPreorden + TokenEntrada ;
                 LlevarLog("Digito");
                 //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
                 HacerMatch(TokenEntrada);
@@ -365,8 +393,6 @@
         function Letra() {
 
             if (EsLetra(TokenEntrada)) {
-                CadenaPosorden = TokenEntrada + CadenaPosorden;
-                CadenaPreorden = CadenaPreorden + TokenEntrada ;
                 LlevarLog("Letra");
                 //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
                 HacerMatch(TokenEntrada);
@@ -478,14 +504,17 @@
             CadenaAnalizada = cadenaAnalizada;
             PresentarMensaje("Verificando sintaxis para: " + CadenaAnalizada + "\n---------------------------------------------------------------");
             TokenEntrada = ObtenerToken();
+
             //Numero();  // inicio de gramatica
             //Identificador();
             //Factor();
             Expresion();
             PresentarMensaje("Preorden expresion: " + CadenaPreorden);
+	    PresentarMensaje("Inorden expresion: " + CadenaInorden);
             PresentarMensaje("Posorden expresion: " + CadenaPosorden);
-            CadenaPosorden = '';
             CadenaPreorden = ''; 
+	    CadenaInorden = ''; // Esta Lista
+            CadenaPosorden = ''; //Esta lista
         }
     </script>
 </body>
