@@ -196,6 +196,8 @@
                 for (let i = 0; i < this.data.length; i++) {
                     if (EsLetra(this.data[i].lexema)) {
                         CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
+                    } else if (!isNaN(this.data[i].lexema)) {
+                        CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
                     }
                     else {
                         for (let index = 0; index < array1.length; index++) {
@@ -204,7 +206,7 @@
                             }
                         }
                     }
-                    if (CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
+                    if (isNaN(this.data[i].lexema) && CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
                         || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
                         || this.data[i].lexema == '(' || this.data[i].lexema == ')' || EsLetra(this.data[i].lexema))) {
                         AnalizarCadena(CadenaAnalizada);
@@ -476,7 +478,6 @@
             CadenaAnalizada = cadenaAnalizada;
             PresentarMensaje("Verificando sintaxis para: " + CadenaAnalizada + "\n---------------------------------------------------------------");
             TokenEntrada = ObtenerToken();
-
             //Numero();  // inicio de gramatica
             //Identificador();
             //Factor();
