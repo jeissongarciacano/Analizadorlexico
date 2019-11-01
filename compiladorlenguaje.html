@@ -14,6 +14,7 @@
         // JavaScript source code
             // inorden  a+b*c-d
         var CadenaPreorden = ''; // *+ab-cd
+	var CadenaInorden = ''; //  a+b*c-d
         var CadenaPosorden = ''; // ab+cd-*
         function reactivo() {
             var main = new analis();
@@ -257,19 +258,26 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("ExpresionPrima");
                 if (TokenEntrada == '+') {
-                    CadenaPosorden = TokenEntrada + CadenaPosorden;
-                    CadenaPreorden = TokenEntrada + CadenaPreorden;
-                    HacerMatch('+');
-                    Termino();
-                    ExpresionPrima();
+                    CadenaPreorden =  '+'+ CadenaPreorden  + CadenaPreordenAux;
+		    CadenaPreordenAux = '';
+		    CadenaInorden = CadenaInorden + '+';	
+                        
+		    HacerMatch('+');
+		    Termino();
+		    CadenaPosorden = CadenaPosorden + '+';	
+		    ExpresionPrima();
                 }
                 else {
                     if (TokenEntrada == '-') {
-                        CadenaPosorden = TokenEntrada + CadenaPosorden;
-                        CadenaPreorden = TokenEntrada + CadenaPreorden;
-                        HacerMatch('-');
-                        Termino();
-                        ExpresionPrima();
+                       CadenaPreorden =  '-'+ CadenaPreorden  + CadenaPreordenAux;
+		       CadenaPreordenAux = '';
+		       CadenaInorden = CadenaInorden + '-';
+							
+			HacerMatch('-');
+			Termino();
+								
+			CadenaPosorden = CadenaPosorden + '-';
+			ExpresionPrima();
                     }
                     else {
                         //PresentarError("ERROR en token: " + TokenEntrada + " ");
@@ -287,20 +295,25 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("TerminoPrima");
                 if (TokenEntrada == '*') {
-                    CadenaPreorden = TokenEntrada + CadenaPreorden;
-                    CadenaPosorden = CadenaPosorden + TokenEntrada;
-                    HacerMatch('*');
-                    Factor();
-                    TerminoPrima();
+			CadenaPreorden =  '*' + CadenaPreorden  + CadenaPreordenAux;
+			CadenaPreordenAux = '';
+			CadenaInorden = CadenaInorden +'*';
+                       
+			HacerMatch('*');
+			Factor();
+			CadenaPosorden = CadenaPosorden + '*';
+			TerminoPrima();
                     
                 }
                 else {
                     if (TokenEntrada == '/') {
-                        CadenaPreorden = TokenEntrada + CadenaPreorden;
-                        CadenaPosorden = CadenaPosorden + TokenEntrada;
-                        HacerMatch('/');
-                        Factor();
-                        TerminoPrima();
+                        CadenaPreorden =  '-' + CadenaPreorden  + CadenaPreordenAux;
+			CadenaInorden = CadenaInorden + '/';
+								
+			HacerMatch('/');
+			Factor();
+			CadenaPosorden = CadenaPosorden + '/';
+			TerminoPrima();
                     }
                     else {
                         //No hacer nada: Epsilon
@@ -314,14 +327,17 @@
                     PresentarError("Se esperaba " + t);
                 }
                 else {
+			if (!isNaN(TokenEntrada) || EsLetra(TokenEntrada)){
+				CadenaPreordenAux += TokenEntrada;
+				CadenaInorden += TokenEntrada; 
+				CadenaPosorden += TokenEntrada;
+		}
                     TokenEntrada = ObtenerToken();
                 }
             }
         }
         function Digito() {
             if (!isNaN(TokenEntrada)) {
-                CadenaPosorden = TokenEntrada + CadenaPosorden;
-                CadenaPreorden = CadenaPreorden + TokenEntrada ;
                 LlevarLog("Digito");
                 //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
                 HacerMatch(TokenEntrada);
@@ -365,8 +381,6 @@
         function Letra() {
 
             if (EsLetra(TokenEntrada)) {
-                CadenaPosorden = TokenEntrada + CadenaPosorden;
-                CadenaPreorden = CadenaPreorden + TokenEntrada ;
                 LlevarLog("Letra");
                 //document.write("<hr>Analizando token: "+TokenEntrada) //Opcional {}
                 HacerMatch(TokenEntrada);
@@ -484,9 +498,11 @@
             //Factor();
             Expresion();
             PresentarMensaje("Preorden expresion: " + CadenaPreorden);
+	    PresentarMensaje("Inorden expresion: " + CadenaInorden);
             PresentarMensaje("Posorden expresion: " + CadenaPosorden);
-            CadenaPosorden = '';
             CadenaPreorden = ''; 
+	    CadenaInorden = ''; // Esta Lista
+            CadenaPosorden = ''; //Esta lista
         }
     </script>
 </body>
