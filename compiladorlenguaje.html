@@ -7,7 +7,7 @@
 <body>
     <form name=FormularioDatos>
         <textarea name=comentarios rows="10" cols="40"></textarea>
-        <input type=button value="Analizar >>>" onclick="reactivo();">
+        <input type=button value="Analizar >>>" onclick="reactivo();"><input type=button value='Reiniciar' onclick='location.reload(true)'><br>
         <textarea name=salida rows=25 cols=80></textarea>
     </form>
     <script>
@@ -156,7 +156,7 @@
                         }
                     }
                     if (x == null) {
-                        x = new tipos('variable', palabra, contaux + 40, rengaux, col, palabra);
+                        x = new tipos('variable,identificaor', palabra, contaux + 40, rengaux, col, palabra);
                     }
                 }
                 this.data.push(x);
