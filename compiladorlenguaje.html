@@ -13,9 +13,10 @@
     <script>
         // JavaScript source code
             // inorden  a+b*c-d
-        var CadenaPreorden = ''; // *+ab-cd
-	var CadenaInorden = ''; //  a+b*c-d
+        var CadenaPreorden = new Array(); // *+ab-cd
+	    var CadenaInorden = ''; //  a+b*c-d
         var CadenaPosorden = ''; // ab+cd-*
+        var CadenaPreordenAux = '';
         function reactivo() {
             var main = new analis();
         }
@@ -100,6 +101,9 @@
             lexemas = [this.a1, this.a2, this.a3, this.a4, this.a5, this.a6, this.a7, this.a8, this.a9, this.a10, this.a11, this.a12, this.a13, this.a14, this.a15, this.a16, this.a17, this.a18, this.a19,
             this.a20, this.a21, this.a22, this.a23, this.a24, this.a26, this.a27, this.a28, this.a29, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37, this.a38, this.a39,
             this.a40, this.a41, this.a42, this.a43, this.a44];
+            idk = [this.a1, this.a2, this.a3, this.a4, this.a5, this.a6, this.a7, this.a8, this.a9, this.a10, this.a11, this.a12, this.a13, this.a14, this.a15, this.a16, this.a17, this.a18, this.a19,
+            this.a20, this.a21, this.a22, this.a23, this.a24,this.a25, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37,
+            this.a40, this.a41, this.a42, this.a43, this.a44];
             constructor() {
                 this.data = new Array();
                 this.main();
@@ -126,6 +130,15 @@
                     ventana.document.write("</tr>");
                     aux32 = aux32 + 1;
                 }
+            }
+            check(p){
+                var retorno = true;
+                for (let i = 0; i < this.idk.length; i++) {
+                    if(this.idk[i].lexema==p){
+                        retorno= false;
+                    }
+                }
+                return retorno;
             }
             // ejecuta los verificadores anteriores y crea el objeto que ingresa al arreglo data y se almacenan ahi
             crear(palabra, rengaux, contaux, col) {
@@ -193,9 +206,9 @@
                 var TokenEntrada = '';
                 var a = false;
                 var CadenaAnalizada = '';
-                var array1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '/', '*', '-', '+', '(', ')'];
+                var array1 = [ '/', '*', '-', '+', '(', ')'];
                 for (let i = 0; i < this.data.length; i++) {
-                    if (EsLetra(this.data[i].lexema)) {
+                    if (EsLetra(this.data[i].lexema) || this.check(this.data[i].lexema)) {
                         CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
                     } else if (!isNaN(this.data[i].lexema)) {
                         CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
@@ -207,9 +220,8 @@
                             }
                         }
                     }
-                    if (isNaN(this.data[i].lexema) && CadenaAnalizada != '' && !(this.data[i].lexema == 0 || this.data[i].lexema == 1 || this.data[i].lexema == 2 || this.data[i].lexema == 3 || this.data[i].lexema == 4 || this.data[i].lexema == 5
-                        || this.data[i].lexema == 6 || this.data[i].lexema == 7 || this.data[i].lexema == 8 || this.data[i].lexema == 9 || this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
-                        || this.data[i].lexema == '(' || this.data[i].lexema == ')' || EsLetra(this.data[i].lexema))) {
+                    if (isNaN(this.data[i].lexema) && CadenaAnalizada != '' && !(this.data[i].lexema == '/' || this.data[i].lexema == '+' || this.data[i].lexema == '*' || this.data[i].lexema == '-'
+                        || this.data[i].lexema == '(' || this.data[i].lexema == ')' || EsLetra(this.data[i].lexema) || this.check(this.data[i].lexema))) {
                         AnalizarCadena(CadenaAnalizada);
                         CadenaAnalizada = '';
                     }
