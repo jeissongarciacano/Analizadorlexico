@@ -12,9 +12,9 @@
     </form>
     <script>
         // JavaScript source code
-            // inorden  a+b*c-d
+        // inorden  a+b*c-d
         var CadenaPreorden = new Array(); // *+ab-cd
-	    var CadenaInorden = ''; //  a+b*c-d
+        var CadenaInorden = ''; //  a+b*c-d
         var CadenaPosorden = ''; // ab+cd-*
         var CadenaPreordenAux = '';
         function reactivo() {
@@ -102,7 +102,7 @@
             this.a20, this.a21, this.a22, this.a23, this.a24, this.a26, this.a27, this.a28, this.a29, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37, this.a38, this.a39,
             this.a40, this.a41, this.a42, this.a43, this.a44];
             idk = [this.a1, this.a2, this.a3, this.a4, this.a5, this.a6, this.a7, this.a8, this.a9, this.a10, this.a11, this.a12, this.a13, this.a14, this.a15, this.a16, this.a17, this.a18, this.a19,
-            this.a20, this.a21, this.a22, this.a23, this.a24,this.a25, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37,
+            this.a20, this.a21, this.a22, this.a23, this.a24, this.a25, this.a30, this.a31, this.a32, this.a33, this.a35, this.a36, this.a37,
             this.a40, this.a41, this.a42, this.a43, this.a44];
             constructor() {
                 this.data = new Array();
@@ -131,11 +131,11 @@
                     aux32 = aux32 + 1;
                 }
             }
-            check(p){
+            check(p) {
                 var retorno = true;
                 for (let i = 0; i < this.idk.length; i++) {
-                    if(this.idk[i].lexema==p){
-                        retorno= false;
+                    if (this.idk[i].lexema == p) {
+                        retorno = false;
                     }
                 }
                 return retorno;
@@ -206,7 +206,7 @@
                 var TokenEntrada = '';
                 var a = false;
                 var CadenaAnalizada = '';
-                var array1 = [ '/', '*', '-', '+', '(', ')'];
+                var array1 = ['/', '*', '-', '+', '(', ')'];
                 for (let i = 0; i < this.data.length; i++) {
                     if (EsLetra(this.data[i].lexema) || this.check(this.data[i].lexema)) {
                         CadenaAnalizada = CadenaAnalizada + this.data[i].lexema;
@@ -270,26 +270,26 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("ExpresionPrima");
                 if (TokenEntrada == '+') {
-                    CadenaPreorden =  '+'+ CadenaPreorden  + CadenaPreordenAux;
-		    CadenaPreordenAux = '';
-		    CadenaInorden = CadenaInorden + '+';	
-                        
-		    HacerMatch('+');
-		    Termino();
-		    CadenaPosorden = CadenaPosorden + '+';	
-		    ExpresionPrima();
+                    CadenaPreorden = '+' + CadenaPreorden + CadenaPreordenAux;
+                    CadenaPreordenAux = '';
+                    CadenaInorden = CadenaInorden + '+';
+
+                    HacerMatch('+');
+                    Termino();
+                    CadenaPosorden = CadenaPosorden + '+';
+                    ExpresionPrima();
                 }
                 else {
                     if (TokenEntrada == '-') {
-                       CadenaPreorden =  '-'+ CadenaPreorden  + CadenaPreordenAux;
-		       CadenaPreordenAux = '';
-		       CadenaInorden = CadenaInorden + '-';
-							
-			HacerMatch('-');
-			Termino();
-								
-			CadenaPosorden = CadenaPosorden + '-';
-			ExpresionPrima();
+                        CadenaPreorden = '-' + CadenaPreorden + CadenaPreordenAux;
+                        CadenaPreordenAux = '';
+                        CadenaInorden = CadenaInorden + '-';
+
+                        HacerMatch('-');
+                        Termino();
+
+                        CadenaPosorden = CadenaPosorden + '-';
+                        ExpresionPrima();
                     }
                     else {
                         //PresentarError("ERROR en token: " + TokenEntrada + " ");
@@ -307,25 +307,25 @@
             if (typeof (TokenEntrada) !== 'undefined') {
                 LlevarLog("TerminoPrima");
                 if (TokenEntrada == '*') {
-			CadenaPreorden =  '*' + CadenaPreorden  + CadenaPreordenAux;
-			CadenaPreordenAux = '';
-			CadenaInorden = CadenaInorden +'*';
-                       
-			HacerMatch('*');
-			Factor();
-			CadenaPosorden = CadenaPosorden + '*';
-			TerminoPrima();
-                    
+                    CadenaPreorden = '*' + CadenaPreorden + CadenaPreordenAux;
+                    CadenaPreordenAux = '';
+                    CadenaInorden = CadenaInorden + '*';
+
+                    HacerMatch('*');
+                    Factor();
+                    CadenaPosorden = CadenaPosorden + '*';
+                    TerminoPrima();
+
                 }
                 else {
                     if (TokenEntrada == '/') {
-                        CadenaPreorden =  '-' + CadenaPreorden  + CadenaPreordenAux;
-			CadenaInorden = CadenaInorden + '/';
-								
-			HacerMatch('/');
-			Factor();
-			CadenaPosorden = CadenaPosorden + '/';
-			TerminoPrima();
+                        CadenaPreorden = '-' + CadenaPreorden + CadenaPreordenAux;
+                        CadenaInorden = CadenaInorden + '/';
+
+                        HacerMatch('/');
+                        Factor();
+                        CadenaPosorden = CadenaPosorden + '/';
+                        TerminoPrima();
                     }
                     else {
                         //No hacer nada: Epsilon
@@ -339,11 +339,11 @@
                     PresentarError("Se esperaba " + t);
                 }
                 else {
-			if (!isNaN(TokenEntrada) || EsLetra(TokenEntrada)){
-				CadenaPreordenAux += TokenEntrada;
-				CadenaInorden += TokenEntrada; 
-				CadenaPosorden += TokenEntrada;
-		}
+                    if (!isNaN(TokenEntrada) || EsLetra(TokenEntrada)) {
+                        CadenaPreordenAux += TokenEntrada;
+                        CadenaInorden += TokenEntrada;
+                        CadenaPosorden += TokenEntrada;
+                    }
                     TokenEntrada = ObtenerToken();
                 }
             }
@@ -382,13 +382,13 @@
             NumeroPrima();
         }
         function EsLetra(s) {
-		var str = String(s);
-        var x1= str.length === 1 && str.match(/[a-z]/i);
-        var x2=true;
-        if(x1 == false || x1== null){
-            x2=false;
-        }
-		return x2;
+            var str = String(s);
+            var x1 = str.length === 1 && str.match(/[a-z]/i);
+            var x2 = true;
+            if (x1 == false || x1 == null) {
+                x2 = false;
+            }
+            return x2;
         }
         function Letra() {
 
@@ -509,12 +509,14 @@
             //Identificador();
             //Factor();
             Expresion();
+            CadenaPreorden = CadenaPreorden + CadenaPreordenAux;
             PresentarMensaje("Preorden expresion: " + CadenaPreorden);
-	    PresentarMensaje("Inorden expresion: " + CadenaInorden);
+            PresentarMensaje("Inorden expresion: " + CadenaInorden);
             PresentarMensaje("Posorden expresion: " + CadenaPosorden);
-            CadenaPreorden = ''; 
-	    CadenaInorden = ''; // Esta Lista
+            CadenaPreorden = '';
+            CadenaInorden = ''; // Esta Lista
             CadenaPosorden = ''; //Esta lista
+            CadenaPreordenAux = '';
         }
     </script>
 </body>
